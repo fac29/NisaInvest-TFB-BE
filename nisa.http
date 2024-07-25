@@ -1,0 +1,30 @@
+GET http://localhost:3000/users
+
+###
+
+# GET http://localhost:5005/game/223
+
+# ###
+# POST http://localhost:5005/games
+# Content-Type: application/json
+
+#     {
+#         "name": "Overwatch",
+#         "genre": "Shooter",
+#         "price": 39.99,
+#         "releaseDate": "2016-10-10"
+#     }
+
+# ###
+# PUT  http://localhost:5005/games/1234
+# Content-Type: application/json
+
+#     {
+#         "name": "Perico",
+#         "genre": "Shooter",
+#         "price": 39.99,
+#         "releaseDate": "2016-10-10"
+#     }
+
+# ###
+# DELETE http://localhost:5005/games/1
