@@ -154,6 +154,51 @@ export default cleanEnv(process.env, {
 });
 ```
 
+Example ``.env`` file:
+
+```
+PORT=3000
+CORS_ORIGIN=http://localhost:3000
+NODE_ENV=development
+
+# Supabase keys
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+```
+Example ``config.ts`` file:
+
+```typescript
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+interface Config {
+  port: number;
+  corsOrigin: string;
+  nodeEnv: string;
+  supabaseUrl: string;
+  supabaseAnonKey: string;
+}
+
+const config: Config = {
+  port: parseInt(process.env.PORT || '3000', 10),
+  corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  nodeEnv: process.env.NODE_ENV || 'development',
+  supabaseUrl: process.env.SUPABASE_URL || '',
+  supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
+};
+
+export default config;
+```
+Usage in your application:
+```typescript
+import config from './config';
+
+app.listen(config.port, () => {
+  console.log(`Server running on port ${config.port} in ${config.nodeEnv} mode`);
+});
+```
+
 ## 8. Linting and Formatting
 
 - Use Prettier for code formatting
