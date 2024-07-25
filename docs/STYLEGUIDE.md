@@ -135,7 +135,7 @@ const createUser = async (userData: CreateUserRequest): Promise<User> => {
 };
 ```
 
-## 9. Environment Variables
+## 7. Environment Variables
 
 - Use `dotenv` to manage environment variables
 - Create a separate file for loading and validating environment variables
@@ -154,7 +154,7 @@ export default cleanEnv(process.env, {
 });
 ```
 
-## 10. Linting and Formatting
+## 8. Linting and Formatting
 
 - Use Prettier for code formatting
 
