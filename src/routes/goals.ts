@@ -3,38 +3,41 @@ import { supabase } from '../supabaseClient';
 
 const router = express.Router();
 
-// Get all users
-router.get('/all', async (req, res) => {
-  try {
-    const { data, error } = await supabase.from('users').select('*');
-    if (error) throw new Error(error.message);
-    res.json(data);
-  } catch (error: unknown) {
-    res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
-  }
-});
-
-// Get user by email
-router.get('/email/:email', async (req, res) => {
+// Get all goals for a user
+router.get('/user/:userId', async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from('goals')
       .select('*')
-      .eq('email', req.params.email)
-      .single();
+      .eq('user_id', req.params.userId);
     if (error) throw new Error(error.message);
-    if (!data) return res.status(404).json({ error: 'User not found' });
     res.json(data);
   } catch (error: unknown) {
     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
   }
 });
 
-// Create user
+// Get goal by goal_id
+router.get('/:goalId', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('goals')
+      .select('*')
+      .eq('id', req.params.goalId)
+      .single();
+    if (error) throw new Error(error.message);
+    if (!data) return res.status(404).json({ error: 'Goal not found' });
+    res.json(data);
+  } catch (error: unknown) {
+    res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+  }
+});
+
+// Create goal
 router.post('/', async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from('goals')
       .insert([req.body])
       .select();
     if (error) throw new Error(error.message);
@@ -44,27 +47,27 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Update user
+// Update goal
 router.put('/:id', async (req, res) => {
   try {
     const { data, error } = await supabase
-      .from('users')
+      .from('goals')
       .update(req.body)
       .eq('id', req.params.id)
       .select();
     if (error) throw new Error(error.message);
-    if (data.length === 0) return res.status(404).json({ error: 'User not found' });
+    if (data.length === 0) return res.status(404).json({ error: 'Goal not found' });
     res.json(data[0]);
   } catch (error: unknown) {
     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
   }
 });
 
-// Delete user
+// Delete goal
 router.delete('/:id', async (req, res) => {
   try {
     const { error } = await supabase
-      .from('users')
+      .from('goals')
       .delete()
       .eq('id', req.params.id);
     if (error) throw new Error(error.message);

@@ -1,0 +1,21 @@
+id,created_at,title,description,status,user_id,is_recurrent,recurrence_type,recurrence_value,due_date
+1,2024-01-06 08:00:00+00,Learn Spanish,Complete Duolingo Spanish course,in_progress,2,true,day,1,2024-06-30 23:59:59+00
+2,2024-01-07 09:30:00+00,Read 12 books this year,Read one book per month,in_progress,2,true,month,1,2024-12-31 23:59:59+00
+3,2024-01-08 10:45:00+00,Run a marathon,Train and complete a full marathon,not_done,3,false,,,2024-10-15 09:00:00+00
+4,2024-01-09 11:15:00+00,Write a novel,Complete first draft of novel,in_progress,3,false,,,2024-11-30 23:59:59+00
+5,2024-01-10 13:00:00+00,Learn to play guitar,Practice guitar for 30 minutes,in_progress,3,true,day,1,2024-12-31 23:59:59+00
+6,2024-01-11 14:30:00+00,Save for vacation,Save $5000 for summer vacation,in_progress,4,true,week,1,2024-07-01 00:00:00+00
+7,2024-01-12 15:45:00+00,Learn to cook 10 new recipes,Try a new recipe every two weeks,in_progress,4,true,week,2,2024-12-31 23:59:59+00
+8,2024-01-13 16:20:00+00,Declutter home,Organize and declutter entire house,not_done,4,false,,,2024-03-31 23:59:59+00
+9,2024-01-14 17:00:00+00,Improve photography skills,Take an online photography course,not_done,4,false,,,2024-06-30 23:59:59+00
+10,2024-01-15 09:00:00+00,Start a blog,Write and publish first blog post,completed,4,false,,,2024-02-29 23:59:59+00
+11,2024-01-16 10:30:00+00,Meditate daily,Meditate for 10 minutes every morning,in_progress,5,true,day,1,2024-12-31 23:59:59+00
+12,2024-01-17 11:45:00+00,Learn to code,Complete a Python programming course,in_progress,5,true,week,3,2024-09-30 23:59:59+00
+13,2024-01-18 13:15:00+00,Volunteer monthly,Volunteer at local charity once a month,in_progress,5,true,month,1,2024-12-31 23:59:59+00
+14,2024-01-19 14:40:00+00,Reduce screen time,Limit social media use to 1 hour per day,not_done,5,true,day,1,2024-12-31 23:59:59+00
+15,2024-01-20 16:00:00+00,Learn a new language,Achieve B1 level in French,in_progress,5,true,week,2,2024-12-31 23:59:59+00
+16,2024-01-21 17:30:00+00,Start a side business,Launch an Etsy shop for handmade crafts,not_done,5,false,,,2024-06-30 23:59:59+00
+17,2024-01-22 09:45:00+00,Improve public speaking,Join a local Toastmasters club,not_done,5,true,week,1,2024-12-31 23:59:59+00
+18,2024-01-23 11:00:00+00,Run a 5K race,Train and participate in a local 5K run,in_progress,5,false,,,2024-05-15 09:00:00+00
+19,2024-01-24 13:30:00+00,Learn to play chess,Practice chess puzzles daily,in_progress,5,true,day,1,2024-12-31 23:59:59+00
+20,2024-01-25 15:00:00+00,Write a children's book,Complete and illustrate a short story for kids,not_done,5,false,,,2024-08-31 23:59:59+00
