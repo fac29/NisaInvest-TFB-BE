@@ -1,5 +1,5 @@
-{
-    "trailingComma": "es5",
-    "tabWidth": 4,
-    "singleQuote": true
-}
+module.exports = {
+	trailingComma: 'es5',
+	tabWidth: 4,
+	singleQuote: true,
+};
