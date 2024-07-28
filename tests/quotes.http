@@ -1,0 +1,33 @@
+### Quotes Endpoints ###
+
+### Get all quotes
+GET http://localhost:3000/quotes
+
+### Get quote by id
+GET http://localhost:3000/quotes/1
+
+### Create quote
+POST http://localhost:3000/quotes
+Content-Type: application/json
+
+{
+    "text": "New inspirational quote",
+    "author": "Unknown Author",
+    "valid_from": "2023-01-01",
+    "valid_to": "2023-12-31"
+}
+
+### Update quote
+PUT http://localhost:3000/quotes/1
+Content-Type: application/json
+
+{
+    "text": "Updated inspirational quote",
+    "author": "Known Author"
+}
+
+### Delete quote
+DELETE http://localhost:3000/quotes/1
+
+### Get random quotes for a specific date
+GET http://localhost:3000/quotes/random?date=2024-04-1&count=3

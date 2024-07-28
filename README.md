@@ -29,3 +29,6 @@ In Vercel's dashboard or CLI, set the same variable:
 
 Production Environment (Vercel):
 Vercel automatically sets NODE_ENV to production in its deployment environment. You don't need to set this manually.
+
+To redeploy:
+npx vercel --prod
