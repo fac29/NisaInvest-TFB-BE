@@ -32,3 +32,6 @@ Vercel automatically sets NODE_ENV to production in its deployment environment. 
 
 To redeploy:
 npx vercel --prod
+
+The backend will be accessible on:
+https://nisa-invest-tfb-be.vercel.app/
