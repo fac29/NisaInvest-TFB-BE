@@ -3,20 +3,18 @@ import cors from 'cors'
 import userRoutes from './routes/users'
 import goalRoutes from './routes/goals'
 import quoteRoutes from './routes/quotes'
-import dotenv from 'dotenv'
-import config from './config/config'; // This is file to extract environment variables, use eg. config.port
+import config from './config/config'
 
-const app = express();
+const app = express()
 
 // CORS setup
 const corsOptions = {
-	origin: process.env.CORS_ORIGIN || '*',
-	optionsSuccessStatus: 200,
+    origin: config.corsOrigin,
+    optionsSuccessStatus: 200,
 }
 
 // CORS OPTIONS
-// app.use(cors(corsOptions))
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 
 // Routes
@@ -24,23 +22,24 @@ app.use('/users', userRoutes)
 app.use('/goals', goalRoutes)
 app.use('/quotes', quoteRoutes)
 
-const port = process.env.PORT || 3000
+if (config.nodeEnv !== 'production') {
+    const server = app.listen(config.port, () => {
+        console.log(
+            `Server running in ${config.nodeEnv} mode on http://localhost:${config.port}`
+        )
+    })
 
-// Check if both work and delete direct access to .env in favour to config 
-if (process.env.NODE_ENV !== 'production') {
-	app.listen(port, () => {
-		console.log(
-			`Server running in ${process.env.NODE_ENV} mode on http://localhost:${port}`
-		)
-	})
-};
-
-if (process.env.NODE_ENV !== 'production') {
-	app.listen(config.port, () => {
-		console.log(
-			`Server running in ${config.port} mode on http://localhost:${config.port}`
-		);
-	});
+    server.on('error', (e: NodeJS.ErrnoException) => {
+        if (e.code === 'EADDRINUSE') {
+            console.log('Address in use, retrying...')
+            setTimeout(() => {
+                server.close()
+                server.listen(config.port)
+            }, 1000)
+        } else {
+            console.error('Server error:', e.message)
+        }
+    })
 }
 
 export default app

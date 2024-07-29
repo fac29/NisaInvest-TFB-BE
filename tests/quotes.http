@@ -4,7 +4,7 @@
 GET http://localhost:3000/quotes
 
 ### Get quote by id
-GET http://localhost:3000/quotes/1
+GET http://localhost:3000/quotes/10
 
 ### Create quote
 POST http://localhost:3000/quotes
