@@ -47,5 +47,5 @@ Backend URL: https://nisa-invest-tfb-be.vercel.app/
 
 * Keep environment variables secure
 * Test thoroughly before deploying
-* Monitor logs in Vercel dashboard for issues
+* Monitor logs in Vercel dashboard for issues.
 
