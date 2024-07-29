@@ -38,11 +38,29 @@ https://nisa-invest-tfb-be.vercel.app/
 
 
 #### Run and stop local supabase instance
-```
-npx supabase start
-```
-```
-npm supabase stop
-```
+```npx supabase start```
+```npx supabase stop```
+
 #### Reset local db
-npx supabase db reset
+```npx supabase db reset```
+
+#### Access to local Supabase Studio
+```http://localhost:54323/project/default```
+
+#### Generate Supabase access token to link local db with remote. Needed to be able to push local schema to remote schema
+Go to https://app.supabase.com
+Click on your profile icon in the top right
+Select "Account"
+In the left sidebar, click "Access Tokens"
+Click "Generate New Token"
+Name it (e.g., "CLI Access Token") and generate it
+Copy the token immediately (you won't see it again)
+
+Then set it as an environment variable:
+```export SUPABASE_ACCESS_TOKEN=your_new_token_here```
+
+#### Link with remote DB:
+```npx supabase link --project-ref xzzacivebczssoporkmz```
+
+### Completely reset remote db (Caution, will reseed)
+```npx supabase db reset --linked```
