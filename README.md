@@ -1,66 +1,51 @@
 # NisaInvest-TFB-BE
 
-There are a few important considerations and modifications we need to make to ensure it works well with Vercel's serverless environment. Here's what you need to know:
+This backend project is designed to work with Vercel's serverless environment. Here's a quick guide to get you started:
 
-Vercel and Express:
-* Vercel primarily supports serverless functions, which means we need to adapt our Express app to work in this environment.
-* File Structure: We'll need to modify our file structure slightly to work with Vercel's conventions.
-* Serverless Function: We'll create a serverless function that wraps our Express app.
+## Deployment
 
-NISAINVEST-TFB-BE/
-├── api/
-│   └── index.ts
-├── src/
-│   ├── app.ts //Here we set the express server and its middleware
-│   └── (other source files)
-├── package.json
-├── tsconfig.json
-└── vercel.json
+### Vercel Setup
+- Adapt the Express app for serverless functions
+- Modify file structure to match Vercel's conventions
+- Create a serverless function wrapping the Express app
 
+### Environment Variables
+- **Development**: Use `.env` file
+CORS_ORIGIN=http://localhost:3000
+- **Production**: Set in Vercel dashboard
+CORS_ORIGIN=https://your-frontend-domain.com
 
-Vercel (Production):
-On Vercel, you'll set environment variables through their dashboard or CLI. These will be available in your code via process.env without needing to use dotenv.
+### Deployment Command
+```npx vercel --prod```
+Backend URL: https://nisa-invest-tfb-be.vercel.app/
 
-In your .env file for development:
-```CopyCORS_ORIGIN=http://localhost:3000```
-
-In Vercel's dashboard or CLI, set the same variable:
-```CopyCORS_ORIGIN=https://your-frontend-domain.com```
-
-Production Environment (Vercel):
-Vercel automatically sets NODE_ENV to production in its deployment environment. You don't need to set this manually.
-
-To redeploy:
-npx vercel --prod
-
-The backend will be accessible on:
-https://nisa-invest-tfb-be.vercel.app/
-
-
-#### Run and stop local supabase instance
+### Local Development
+#### Supabase Commands
+##### Start local instance:
 ```npx supabase start```
+##### Stop local instance:
 ```npx supabase stop```
-
-#### Reset local db. Rebuilds the db with initial schema and seed
+##### Reset local DB:
 ```npx supabase db reset```
-
-#### Access to local Supabase Studio
+##### Access local Supabase Studio:
 ```http://localhost:54323/project/default```
 
-#### Generate Supabase access token to link local db with remote. Needed to be able to push local schema to remote schema
-Go to https://app.supabase.com
-Click on your profile icon in the top right
-Select "Account"
-In the left sidebar, click "Access Tokens"
-Click "Generate New Token"
-Name it (e.g., "CLI Access Token") and generate it
-Copy the token immediately (you won't see it again)
+### Supabase Remote Setup
 
-Then set it as an environment variable:
+1) Generate access token at https://app.supabase.com
+2) Set environment variable:
 ```export SUPABASE_ACCESS_TOKEN=your_new_token_here```
 
-#### Link with remote DB:
+3) Link with remote DB:
 ```npx supabase link --project-ref xzzacivebczssoporkmz```
 
-### Completely reset remote db (Caution, will reseed)
+
+### Reset Remote DB (Caution: Will reseed)
 ```npx supabase db reset --linked```
+
+### Best Practices
+
+* Keep environment variables secure
+* Test thoroughly before deploying
+* Monitor logs in Vercel dashboard for issues
+
