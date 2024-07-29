@@ -1,13 +1,14 @@
 import { createClient } from '@supabase/supabase-js'
-import dotenv from 'dotenv'
+import config from './config/config'
 
-dotenv.config()
+console.log('NODE_ENV:', config.nodeEnv)
+console.log('Supabase URL:', config.supabaseUrl)
+console.log('Supabase Key:', config.supabaseAnonKey ? '**hidden**' : 'undefined')
 
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Supabase URL and Anon Key are required')
+if (!config.supabaseUrl || !config.supabaseAnonKey) {
+  throw new Error('Supabase URL or Key is missing. Check your environment variables.')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+const supabase = createClient(config.supabaseUrl, config.supabaseAnonKey)
+
+export default supabase

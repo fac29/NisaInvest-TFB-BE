@@ -1,0 +1,45 @@
+### Goals Endpoints ###
+
+# Get all goals for a user
+GET http://localhost:3000/goals/user/2
+
+### Get goal by goal_id
+GET http://localhost:3000/goals/4
+
+### Create goal
+POST http://localhost:3000/goals
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "title": "New Goal",
+    "description": "This is a new goal",
+    "status": "not_done",
+    "is_recurrent": false,
+    "due_date": "2024-12-31T23:59:59Z"
+}
+
+### Update goal (general information)
+PUT http://localhost:3000/goals/1
+Content-Type: application/json
+
+{
+    "title": "Updated Goal Title2",
+    "description": "Updated description",
+    "is_recurrent": true,
+    "recurrence_type": "week",
+    "recurrence_value": 1,
+    "category": "fitness"
+}
+
+### Update user-specific goal information. Params are userID, goalID
+PUT http://localhost:3000/goals/user-goal/2/1
+Content-Type: application/json
+
+{
+    "status": "not_done",
+    "due_date": "2023-12-31T23:59:59Z"
+}
+
+### Delete goal
+DELETE http://localhost:3000/goals/21
