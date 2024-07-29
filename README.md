@@ -35,3 +35,14 @@ npx vercel --prod
 
 The backend will be accessible on:
 https://nisa-invest-tfb-be.vercel.app/
+
+
+#### Run and stop local supabase instance
+```
+npx supabase start
+```
+```
+npm supabase stop
+```
+#### Reset local db
+npx supabase db reset

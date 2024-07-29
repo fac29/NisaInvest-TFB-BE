@@ -3,7 +3,9 @@
 		"@supabase/supabase-js": "^2.44.4",
 		"@vercel/node": "^3.2.7",
 		"cors": "^2.8.5",
-		"express": "^4.19.2"
+		"express": "^4.19.2",
+		"knex": "^3.1.0",
+		"sqlite3": "^5.1.7"
 	},
 	"scripts": {
 		"start": "node dist/src/app.js",
@@ -20,6 +22,7 @@
 		"cross-env": "^7.0.3",
 		"dotenv": "^16.4.5",
 		"nodemon": "^3.1.4",
+		"supabase": "^1.187.8",
 		"typescript": "^5.5.4",
 		"vercel": "^35.2.1"
 	}
