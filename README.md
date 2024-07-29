@@ -41,7 +41,7 @@ https://nisa-invest-tfb-be.vercel.app/
 ```npx supabase start```
 ```npx supabase stop```
 
-#### Reset local db
+#### Reset local db. Rebuilds the db with initial schema and seed
 ```npx supabase db reset```
 
 #### Access to local Supabase Studio
