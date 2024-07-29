@@ -38,12 +38,18 @@ function shuffleArray<T>(array: T[]): T[] {
 router.get('/random', async (req, res) => {
 	try {
 		const { date, count } = req.query
-		const parsedDate = new Date(date as string)
-		const parsedCount = parseInt(count as string) || 1
+		let parsedDate: Date
 
-		if (isNaN(parsedDate.getTime())) {
-			return res.status(400).json({ error: 'Invalid date format' })
+		if (date) {
+			parsedDate = new Date(date as string)
+			if (isNaN(parsedDate.getTime())) {
+				return res.status(400).json({ error: 'Invalid date format' })
+			}
+		} else {
+			parsedDate = new Date() // Use today's date if no date is provided
 		}
+
+		const parsedCount = parseInt(count as string) || 1
 
 		const { data, error } = await supabase
 			.from('quotes')
