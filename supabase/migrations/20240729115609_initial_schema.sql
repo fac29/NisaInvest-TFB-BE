@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS
   public.goals (
     created_at timestamp with time zone not null default now(),
     title text not null,
+    sort_order integer,
     description text null,
     is_recurrent boolean not null default false,
     recurrence_type text null,
@@ -20,6 +21,18 @@ CREATE TABLE IF NOT EXISTS
             'week'::text,
             'month'::text,
             'year'::text
+          ]
+        )
+      )
+    ),
+    constraint category_type_check check (
+      (
+        recurrence_type = any (
+          array[
+            'savings'::text,
+            'expenses'::text,
+            'investing'::text,
+            'charity'::text
           ]
         )
       )
@@ -64,6 +77,7 @@ CREATE TABLE IF NOT EXISTS
     due_date timestamp with time zone null,
     status text null,
     completed_at timestamp with time zone null,
+    quiz_selected boolean default false,
     constraint user_goals_pkey primary key (id),
     constraint user_goals_user_id_goal_id_key unique (user_id, goal_id),
     constraint user_goals_goal_id_fkey foreign key (goal_id) references goals (id),
