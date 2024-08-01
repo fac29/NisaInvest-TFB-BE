@@ -70,3 +70,29 @@ INSERT INTO user_goals (user_id, goal_id, assigned_at, due_date, status, complet
 (4, 1, '2023-07-13T11:00:00Z', '2023-10-31T23:59:59Z', 'completed', '2023-10-20T16:45:00Z'),
 (4, 2, '2023-07-14T16:30:00Z', '2024-01-31T23:59:59Z', 'in_progress', NULL),
 (5, 1, '2023-07-15T10:45:00Z', '2023-12-15T23:59:59Z', 'not_done', NULL);
+
+-- Insert questions
+INSERT INTO questions (id, question, created_at) VALUES
+(1, 'Which areas of your personal finances were you planning to focus on?', '2024-07-31 10:57:12.586849+00'),
+(2, 'In the last two years which of these life events have you experienced?', '2024-07-31 10:57:34.65335+00'),
+(3, 'Which topics below you would like more information on?', '2024-07-31 10:57:53.108628+00'),
+(4, 'Is there any question you have and would like to ask?', '2024-07-31 10:58:06.319872+00');
+
+
+--Instert Answers
+INSERT INTO answers (id, answer_text, question_id, goal_id, created_at) VALUES
+(1, 'Emergency Savings', 1, 2, '2024-07-31 11:02:32.428066+00'),
+(2, 'Managing Expenses', 1, 4, '2024-07-31 11:03:14.550314+00'),
+(3, 'Investing for the Future', 1, 16, '2024-07-31 11:04:54.834584+00'),
+(4, 'Giving Back', 1, 22, '2024-07-31 11:05:36.106429+00'),
+(5, 'Student or graduate', 2, 1, '2024-07-31 11:06:25.780938+00'),
+(6, 'Moved home', 2, 4, '2024-07-31 11:07:00.694809+00'),
+(7, 'Changed jobs or role', 2, 14, '2024-07-31 11:07:34.794972+00'),
+(8, 'Been on sabbatical', 2, 1, '2024-07-31 11:07:56.631059+00'),
+(9, 'Taken maternity leave', 2, 16, '2024-07-31 11:08:33.577078+00'),
+(10, 'None applicable', 2, 1, '2024-07-31 11:08:54.462665+00'),
+(11, 'Taxes', 3, 5, '2024-07-31 11:09:23.526468+00'),
+(12, 'Household bills', 3, 3, '2024-07-31 11:09:57.679285+00'),
+(13, 'Pensions and employee benefits', 3, 14, '2024-07-31 11:10:21.463339+00'),
+(14, 'Halal investing', 3, 16, '2024-07-31 11:10:46.983309+00'),
+(15, 'Student loans', 3, 11, '2024-07-31 11:11:24.339196+00');

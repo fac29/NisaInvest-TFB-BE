@@ -51,7 +51,6 @@ CREATE TABLE IF NOT EXISTS
     email text not null default ''::text,
     name text not null,
     password text null,
-    deleteme text,
     constraint users_pkey primary key (id),
     constraint users_email_key unique (email)
   ) tablespace pg_default;
@@ -82,6 +81,25 @@ CREATE TABLE IF NOT EXISTS
     )
   ) tablespace pg_default;
 
+CREATE TABLE IF NOT EXISTS
+  public.questions (
+    id bigserial,
+    question text not null,
+    created_at timestamp with time zone null default current_timestamp,
+    constraint questions_pkey primary key (id)
+  ) tablespace pg_default;
+
+CREATE TABLE IF NOT EXISTS public.answers (
+    id bigserial,
+    answer_text text not null,
+    question_id bigint references public.questions(id),
+    goal_id bigint references public.goals(id),
+    created_at timestamp with time zone null default  CURRENT_TIMESTAMP,
+    CONSTRAINT answers_pkey primary key (id)
+) TABLESPACE pg_default;
+
+
 create index if not exists idx_quotes_date_range on public.quotes using btree (valid_from, valid_to) tablespace pg_default;
 create index if not exists idx_user_goals_user_id on public.user_goals using btree (user_id) tablespace pg_default;
 create index if not exists idx_user_goals_goal_id on public.user_goals using btree (goal_id) tablespace pg_default;
+create index if not exists idx_answers_goal_id on public.user_goals using btree (goal_id) tablespace pg_default;
