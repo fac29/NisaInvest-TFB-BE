@@ -82,6 +82,20 @@ CREATE TABLE IF NOT EXISTS
     )
   ) tablespace pg_default;
 
+
+
+CREATE TABLE IF NOT EXISTS
+  public.contactNisa (
+    id bigserial,
+    firstName text null,
+    lastName text null,
+    email  text not null default ''::text,
+    socialMedia  firstName text null,
+    textField text null,
+    created_at timestamp with time zone null default current_timestamp,
+    constraint consactNisa_pkey primary key (id),
+  ) tablespace pg_default;
+
 create index if not exists idx_quotes_date_range on public.quotes using btree (valid_from, valid_to) tablespace pg_default;
 create index if not exists idx_user_goals_user_id on public.user_goals using btree (user_id) tablespace pg_default;
 create index if not exists idx_user_goals_goal_id on public.user_goals using btree (goal_id) tablespace pg_default;
