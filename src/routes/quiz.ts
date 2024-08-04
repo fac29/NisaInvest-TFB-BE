@@ -36,7 +36,7 @@ router.get('/questions/:questionId', async (req, res) => {
 	}
 })
 
-// Create question
+// Create questionac
 router.post('/questions', async (req, res) => {
 	const { id,...questionData } = req.body
 
@@ -191,5 +191,78 @@ router.delete('/answers/:answerId', async (req, res) => {
 		})
 	}
 })
+
+// Get all questions with their answers
+router.get('/questions-with-answers', async (req, res) => {
+    try {
+        const { data: questions, error: questionsError } = await supabase
+            .from('questions')
+            .select('*')
+
+        if (questionsError) throw new Error(questionsError.message)
+
+        if (!questions || questions.length === 0) {
+            return res.status(404).json({ error: 'No questions found' })
+        }
+
+        const questionsWithAnswers = await Promise.all(questions.map(async (question) => {
+            const { data: answers, error: answersError } = await supabase
+                .from('answers')
+                .select('*')
+                .eq('question_id', question.id)
+
+            if (answersError) throw new Error(answersError.message)
+
+            return {
+                ...question,
+                answers: answers || []
+            }
+        }))
+
+        res.json(questionsWithAnswers)
+    } catch (error: unknown) {
+        res.status(500).json({
+            error:
+                error instanceof Error ? error.message : 'An unknown error occurred',
+        })
+    }
+})
+
+// Get goals associated with a list of answers
+router.post('/goals-for-answers', async (req, res) => {
+    const { answerIds } = req.body;
+
+    if (!answerIds || !Array.isArray(answerIds) || answerIds.length === 0) {
+        return res.status(400).json({ error: 'Invalid or missing answerIds in request body' });
+    }
+
+    try {
+        // First, get all answers with the given IDs
+        const { data: answers, error: answersError } = await supabase
+            .from('answers')
+            .select('id, goal_id')
+            .in('id', answerIds);
+
+        if (answersError) throw new Error(answersError.message);
+
+        // Extract unique goal IDs from the answers
+        const goalIds = [...new Set(answers.map(answer => answer.goal_id))];
+
+        // Then, get all goals associated with these goal IDs
+        const { data: goals, error: goalsError } = await supabase
+            .from('goals')
+            .select('*')
+            .in('id', goalIds);
+
+        if (goalsError) throw new Error(goalsError.message);
+
+        res.json(goals);
+    } catch (error: unknown) {
+        res.status(500).json({
+            error:
+                error instanceof Error ? error.message : 'An unknown error occurred',
+        });
+    }
+});
 
 export default router
