@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
     "email": "new.user@exsdf.com",
-    "name": "New User",
+    "first_name": "New User",
     "password": "securepassword123"
 }
 
@@ -21,7 +21,7 @@ PUT http://localhost:3000/users/1
 Content-Type: application/json
 
 {
-    "name": "Updated Name"
+    "first_name": "Updated Name"
 }
 
 ### Delete user
