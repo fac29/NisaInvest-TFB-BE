@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS
     recurrence_type text null,
     recurrence_value bigint null,
     category text null,
+    sort_order integer null,
     constraint goals_pkey primary key (id),
     constraint recurrence_type_check check (
       (

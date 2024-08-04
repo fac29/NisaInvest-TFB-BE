@@ -208,5 +208,94 @@ router.post('/update-quiz-selected', async (req, res) => {
     }
 });
 
+router.get('/user-quiz-goals/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId);
+
+  if (isNaN(userId)) {
+      return res.status(400).json({ error: 'Invalid userId provided' });
+  }
+
+  try {
+      // 1. Fetch user_goals with quiz_selected = true
+      const { data: selectedUserGoals, error: selectedUserGoalsError } = await supabase
+          .from('user_goals')
+          .select(`
+              goal_id,
+              quiz_selected,
+              goals (
+                *
+              )
+          `)
+          .eq('user_id', userId)
+          .eq('quiz_selected', true)
+          .order('sort_order', { referencedTable: 'goals' });
+
+      if (selectedUserGoalsError) throw new Error(selectedUserGoalsError.message);
+
+      // 2. Fetch remaining user_goals (quiz_selected = false or null)
+      const { data: remainingUserGoals, error: remainingUserGoalsError } = await supabase
+          .from('user_goals')
+          .select(`
+              goal_id,
+              quiz_selected,
+              goals (
+                *
+              )
+          `)
+          .eq('user_id', userId)
+          .not('quiz_selected', 'eq', true)
+          .order('sort_order', { referencedTable: 'goals' });
+
+      if (remainingUserGoalsError) throw new Error(remainingUserGoalsError.message);
+
+      // 3. Fetch all goals
+      const { data: allGoals, error: allGoalsError } = await supabase
+          .from('goals')
+          .select('*')
+          .order('sort_order');
+
+      if (allGoalsError) throw new Error(allGoalsError.message);
+
+      // Create a set of goal IDs that are in user_goals
+      const userGoalIds = new Set([
+          ...selectedUserGoals.map(ug => ug.goal_id),
+          ...remainingUserGoals.map(ug => ug.goal_id)
+      ]);
+
+      // Combine the results in the specified order
+      const combinedGoals = [
+          ...selectedUserGoals.map(ug => ({...ug.goals, quiz_selected: ug.quiz_selected})),
+          ...remainingUserGoals.map(ug => ({...ug.goals, quiz_selected: ug.quiz_selected})),
+          ...allGoals.filter(goal => !userGoalIds.has(goal.id)).map(goal => ({...goal, quiz_selected: null}))
+      ];
+
+      // Group goals by category
+      const goalsByCategory = combinedGoals.reduce((acc, goal) => {
+          if (!acc[goal.category]) {
+              acc[goal.category] = [];
+          }
+          acc[goal.category].push(goal);
+          return acc;
+      }, {});
+
+      // Create the final structure
+      const categorizedGoals = Object.entries(goalsByCategory).map(([category, goals]) => ({
+          category,
+          goals
+      }));
+
+      res.json({
+          message: 'Goals fetched successfully',
+          categorizedGoals
+      });
+
+  } catch (error: unknown) {
+      res.status(500).json({
+          error:
+              error instanceof Error ? error.message : 'An unknown error occurred',
+      });
+  }
+});
+
 
 export default router;

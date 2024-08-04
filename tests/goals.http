@@ -69,3 +69,19 @@ Content-Type: application/json
 #   .then(response => response.json())
 #   .then(result => console.log(result))
 #   .catch(error => console.error('Error:', error));
+
+### Given a user get all the goals in the right order
+GET http://localhost:3000/goals/user-quiz-goals/1
+# How to use it:
+# fetch(`http://localhost:3000/user-quiz-goals/${userId}`)
+#   .then(response => response.json())
+#   .then(data => {
+#     console.log(data.categorizedGoals);
+#     // data.categorizedGoals will be an array of objects like:
+#     // [
+#     //   { category: "Category1", goals: [...] },
+#     //   { category: "Category2", goals: [...] },
+#     //   ...
+#     // ]
+#   })
+#   .catch(error => console.error('Error:', error));
