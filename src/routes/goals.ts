@@ -148,4 +148,65 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Update quiz_selected for multiple user goals
+router.post('/update-quiz-selected', async (req, res) => {
+  const { userId, goalIds } = req.body;
+
+    if (!userId || !goalIds || !Array.isArray(goalIds) || goalIds.length === 0) {
+        return res.status(400).json({ error: 'Invalid or missing userId or goalIds in request body' });
+    }
+
+    try {
+        // Start a Supabase transaction
+        const { data: existingUserGoals, error: fetchError } = await supabase
+            .from('user_goals')
+            .select('goal_id')
+            .eq('user_id', userId)
+            .in('goal_id', goalIds);
+
+        if (fetchError) throw new Error(fetchError.message);
+
+        const existingGoalIds = new Set(existingUserGoals.map(ug => ug.goal_id));
+        const goalsToCreate = goalIds.filter(id => !existingGoalIds.has(id));
+
+        // Create new user_goals entries for non-existing combinations
+        if (goalsToCreate.length > 0) {
+            const newUserGoals = goalsToCreate.map(goalId => ({
+                user_id: userId,
+                goal_id: goalId,
+                quiz_selected: true,
+                status: 'not_done'
+            }));
+
+            const { error: insertError } = await supabase
+                .from('user_goals')
+                .insert(newUserGoals);
+
+            if (insertError) throw new Error(insertError.message);
+        }
+
+        // Update existing user_goals entries
+        const { data: updatedGoals, error: updateError } = await supabase
+            .from('user_goals')
+            .update({ quiz_selected: true })
+            .eq('user_id', userId)
+            .in('goal_id', goalIds)
+            .select();
+
+        if (updateError) throw new Error(updateError.message);
+
+        res.json({
+            message: 'User goals updated or created successfully',
+            updatedGoals,
+            newGoalsCreated: goalsToCreate.length
+        });
+    } catch (error: unknown) {
+        res.status(500).json({
+            error:
+                error instanceof Error ? error.message : 'An unknown error occurred',
+        });
+    }
+});
+
+
 export default router;
