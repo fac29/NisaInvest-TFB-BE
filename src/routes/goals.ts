@@ -222,9 +222,7 @@ router.get('/user-quiz-goals/:userId', async (req, res) => {
           .select(`
               goal_id,
               quiz_selected,
-              goals (
-                *
-              )
+              goals (*)
           `)
           .eq('user_id', userId)
           .eq('quiz_selected', true)
@@ -232,18 +230,16 @@ router.get('/user-quiz-goals/:userId', async (req, res) => {
 
       if (selectedUserGoalsError) throw new Error(selectedUserGoalsError.message);
 
-      // 2. Fetch remaining user_goals (quiz_selected = false or null)
+      // 2. Fetch remaining user_goals (quiz_selected = false)
       const { data: remainingUserGoals, error: remainingUserGoalsError } = await supabase
           .from('user_goals')
           .select(`
               goal_id,
               quiz_selected,
-              goals (
-                *
-              )
+              goals (*)
           `)
           .eq('user_id', userId)
-          .not('quiz_selected', 'eq', true)
+          .eq('quiz_selected', false)
           .order('sort_order', { referencedTable: 'goals' });
 
       if (remainingUserGoalsError) throw new Error(remainingUserGoalsError.message);
@@ -264,8 +260,8 @@ router.get('/user-quiz-goals/:userId', async (req, res) => {
 
       // Combine the results in the specified order
       const combinedGoals = [
-          ...selectedUserGoals.map(ug => ({...ug.goals, quiz_selected: ug.quiz_selected})),
-          ...remainingUserGoals.map(ug => ({...ug.goals, quiz_selected: ug.quiz_selected})),
+          ...selectedUserGoals.map(ug => ({...ug.goals, quiz_selected: true})),
+          ...remainingUserGoals.map(ug => ({...ug.goals, quiz_selected: false})),
           ...allGoals.filter(goal => !userGoalIds.has(goal.id)).map(goal => ({...goal, quiz_selected: null}))
       ];
 
