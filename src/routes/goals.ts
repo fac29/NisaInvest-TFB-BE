@@ -3,29 +3,6 @@ import supabase  from '../supabaseClient';
 
 const router = express.Router();
 
-// Get all goals for a user
-router.get('/user/:userId', async (req, res) => {
-  try {
-    const { data, error } = await supabase
-      .from('user_goals')
-      .select(`
-        id,
-        user_id,
-        goal_id,
-        assigned_at,
-        due_date,
-        status,
-        completed_at,
-        goals (*)
-      `)
-      .eq('user_id', req.params.userId);
-    if (error) throw new Error(error.message);
-    res.json(data);
-  } catch (error: unknown) {
-    res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
-  }
-});
-
 // Get goal by goal_id
 router.get('/:goalId', async (req, res) => {
   try {
@@ -148,7 +125,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// Update quiz_selected for multiple user goals
+// Update status for multiple user goals. Used by the quiz
 router.post('/update-quiz-selected', async (req, res) => {
   const { userId, goalIds } = req.body;
 
@@ -174,8 +151,7 @@ router.post('/update-quiz-selected', async (req, res) => {
             const newUserGoals = goalsToCreate.map(goalId => ({
                 user_id: userId,
                 goal_id: goalId,
-                quiz_selected: true,
-                status: 'not_done'
+                status: 'focused'
             }));
 
             const { error: insertError } = await supabase
@@ -188,7 +164,7 @@ router.post('/update-quiz-selected', async (req, res) => {
         // Update existing user_goals entries
         const { data: updatedGoals, error: updateError } = await supabase
             .from('user_goals')
-            .update({ quiz_selected: true })
+            .update({ status: 'focused' })
             .eq('user_id', userId)
             .in('goal_id', goalIds)
             .select();
@@ -208,90 +184,107 @@ router.post('/update-quiz-selected', async (req, res) => {
     }
 });
 
-router.get('/user-quiz-goals/:userId', async (req, res) => {
+// Get all goals sorted by status: completed > focused > not_done
+router.get('/user/:userId', async (req, res) => {
   const userId = parseInt(req.params.userId);
 
   if (isNaN(userId)) {
-      return res.status(400).json({ error: 'Invalid userId provided' });
+    return res.status(400).json({ error: 'Invalid userId provided' });
   }
 
   try {
-      // 1. Fetch user_goals with quiz_selected = true
-      const { data: selectedUserGoals, error: selectedUserGoalsError } = await supabase
-          .from('user_goals')
-          .select(`
-              goal_id,
-              quiz_selected,
-              goals (*)
-          `)
-          .eq('user_id', userId)
-          .eq('quiz_selected', true)
-          .order('sort_order', { referencedTable: 'goals' });
+    // 1. Fetch user_goals with status 'completed'
+    const { data: completedUserGoals, error: completedUserGoalsError } = await supabase
+      .from('user_goals')
+      .select(`
+        goal_id,
+        status,
+        goals (*)
+      `)
+      .eq('user_id', userId)
+      .eq('status', 'completed')
+      .order('sort_order', { referencedTable: 'goals' });
 
-      if (selectedUserGoalsError) throw new Error(selectedUserGoalsError.message);
+    if (completedUserGoalsError) throw new Error(completedUserGoalsError.message);
 
-      // 2. Fetch remaining user_goals (quiz_selected = false)
-      const { data: remainingUserGoals, error: remainingUserGoalsError } = await supabase
-          .from('user_goals')
-          .select(`
-              goal_id,
-              quiz_selected,
-              goals (*)
-          `)
-          .eq('user_id', userId)
-          .eq('quiz_selected', false)
-          .order('sort_order', { referencedTable: 'goals' });
+    // 2. Fetch user_goals with status 'focused'
+    const { data: focusedUserGoals, error: focusedUserGoalsError } = await supabase
+      .from('user_goals')
+      .select(`
+        goal_id,
+        status,
+        goals (*)
+      `)
+      .eq('user_id', userId)
+      .eq('status', 'focused')
+      .order('sort_order', { referencedTable: 'goals' });
 
-      if (remainingUserGoalsError) throw new Error(remainingUserGoalsError.message);
+    if (focusedUserGoalsError) throw new Error(focusedUserGoalsError.message);
 
-      // 3. Fetch all goals
-      const { data: allGoals, error: allGoalsError } = await supabase
-          .from('goals')
-          .select('*')
-          .order('sort_order');
+    // 3. Fetch user_goals with status 'not_done'
+    const { data: notDoneUserGoals, error: notDoneUserGoalsError } = await supabase
+      .from('user_goals')
+      .select(`
+        goal_id,
+        status,
+        goals (*)
+      `)
+      .eq('user_id', userId)
+      .eq('status', 'not_done')
+      .order('sort_order', { referencedTable: 'goals' });
 
-      if (allGoalsError) throw new Error(allGoalsError.message);
+    if (notDoneUserGoalsError) throw new Error(notDoneUserGoalsError.message);
 
-      // Create a set of goal IDs that are in user_goals
-      const userGoalIds = new Set([
-          ...selectedUserGoals.map(ug => ug.goal_id),
-          ...remainingUserGoals.map(ug => ug.goal_id)
-      ]);
+    // 4. Fetch all goals
+    const { data: allGoals, error: allGoalsError } = await supabase
+      .from('goals')
+      .select('*')
+      .order('sort_order');
 
-      // Combine the results in the specified order
-      const combinedGoals = [
-          ...selectedUserGoals.map(ug => ({...ug.goals, quiz_selected: true})),
-          ...remainingUserGoals.map(ug => ({...ug.goals, quiz_selected: false})),
-          ...allGoals.filter(goal => !userGoalIds.has(goal.id)).map(goal => ({...goal, quiz_selected: null}))
-      ];
+    if (allGoalsError) throw new Error(allGoalsError.message);
 
-      // Group goals by category
-      const goalsByCategory = combinedGoals.reduce((acc, goal) => {
-          if (!acc[goal.category]) {
-              acc[goal.category] = [];
-          }
-          acc[goal.category].push(goal);
-          return acc;
-      }, {});
+    // Create a set of goal IDs that are in user_goals
+    const userGoalIds = new Set([
+      ...completedUserGoals.map(ug => ug.goal_id),
+      ...focusedUserGoals.map(ug => ug.goal_id),
+      ...notDoneUserGoals.map(ug => ug.goal_id)
+    ]);
 
-      // Create the final structure
-      const categorizedGoals = Object.entries(goalsByCategory).map(([category, goals]) => ({
-          category,
-          goals
-      }));
+    // Combine the results in the specified order
+    const combinedGoals = [
+      ...completedUserGoals.map(ug => ({ ...ug.goals, status: 'completed' })),
+      ...focusedUserGoals.map(ug => ({ ...ug.goals, status: 'focused' })),
+      ...notDoneUserGoals.map(ug => ({ ...ug.goals, status: 'not_done' })),
+      ...allGoals.filter(goal => !userGoalIds.has(goal.id)).map(goal => ({ ...goal, status: null }))
+    ];
 
-      res.json({
-          message: 'Goals fetched successfully',
-          categorizedGoals
-      });
+    // Group goals by category
+    const goalsByCategory = combinedGoals.reduce((acc, goal) => {
+      if (!acc[goal.category]) {
+        acc[goal.category] = [];
+      }
+      acc[goal.category].push(goal);
+      return acc;
+    }, {});
+
+    // Create the final structure
+    const categorizedGoals = Object.entries(goalsByCategory).map(([category, goals]) => ({
+      category,
+      goals
+    }));
+
+    res.json({
+      message: 'Goals fetched successfully',
+      categorizedGoals
+    });
 
   } catch (error: unknown) {
-      res.status(500).json({
-          error:
-              error instanceof Error ? error.message : 'An unknown error occurred',
-      });
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'An unknown error occurred',
+    });
   }
 });
+
 
 
 export default router;
