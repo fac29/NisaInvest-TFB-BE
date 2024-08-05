@@ -4,6 +4,8 @@ import userRoutes from './routes/users'
 import goalRoutes from './routes/goals'
 import quoteRoutes from './routes/quotes'
 import quizRoutes from './routes/quiz'
+import contact_nisaRoutes from './routes/contactnisa'
+import reportRoutes from './routes/reports'
 import config from './config/config'
 
 const app = express()
@@ -23,6 +25,9 @@ app.use('/users', userRoutes)
 app.use('/goals', goalRoutes)
 app.use('/quotes', quoteRoutes)
 app.use('/quiz', quizRoutes)
+app.use('/reports', reportRoutes)
+
+app.use('/contactnisa', contact_nisaRoutes)
 
 if (config.nodeEnv !== 'production') {
     const server = app.listen(config.port, () => {
