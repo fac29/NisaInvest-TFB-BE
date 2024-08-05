@@ -36,7 +36,7 @@ It will also deploy when pushing code to the branch 'deployed'
 ```npx supabase link --project-ref xzzacivebczssoporkmz```
 
 ### Reset Remote DB (Caution: Will reseed)
-```npx supabase db reset --linked```
+``````
 
 ## API Documentation
 See [API Endpoints](API_endpoints.md)
