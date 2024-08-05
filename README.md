@@ -4,20 +4,16 @@ This backend project is designed to work with Vercel's serverless environment. H
 
 ## Deployment
 
-### Vercel Setup
-- Adapt the Express app for serverless functions
-- Modify file structure to match Vercel's conventions
-- Create a serverless function wrapping the Express app
-
 ### Environment Variables
 - **Development**: Use `.env` file
 CORS_ORIGIN=http://localhost:3000
 - **Production**: Set in Vercel dashboard
-CORS_ORIGIN=https://your-frontend-domain.com
+CORS_ORIGIN=https://the-frontend-domain.com
 
 ### Deployment Command
 ```npx vercel --prod```
 Backend URL: https://nisa-invest-tfb-be.vercel.app/
+It will also deploy when pushing code to the branch 'deployed'
 
 ### Local Development
 #### Supabase Commands
@@ -39,13 +35,8 @@ Backend URL: https://nisa-invest-tfb-be.vercel.app/
 3) Link with remote DB:
 ```npx supabase link --project-ref xzzacivebczssoporkmz```
 
-
 ### Reset Remote DB (Caution: Will reseed)
 ```npx supabase db reset --linked```
 
-### Best Practices
-
-* Keep environment variables secure
-* Test thoroughly before deploying
-* Monitor logs in Vercel dashboard for issues.
-
+## API Documentation
+See [API Endpoints](API_endpoints.md)

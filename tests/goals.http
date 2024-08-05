@@ -1,6 +1,6 @@
 ### Goals Endpoints ###
 
-# Get all goals for a user
+# Get all goals for a user REPURPOSE
 GET http://localhost:3000/goals/user/2
 
 ### Get goal by goal_id
@@ -43,3 +43,45 @@ Content-Type: application/json
 
 ### Delete goal
 DELETE http://localhost:3000/goals/21
+
+
+### Set all the goals passed on the body to true. If the user_goal does not exist 
+# it will create it
+POST http://localhost:3000/goals/update-quiz-selected
+Content-Type: application/json
+
+{
+  "userId": 5,
+  "goalIds": [1, 2, 3]
+}
+
+# How to use it:
+# const userId = 1; // The user ID
+# const goalIds = [1, 2, 3]; // The list of goal IDs
+
+# fetch('http://localhost:3000/user-goals/update-quiz-selected', {
+#   method: 'POST',
+#   headers: {
+#     'Content-Type': 'application/json',
+#   },
+#   body: JSON.stringify({ userId, goalIds }),
+# })
+#   .then(response => response.json())
+#   .then(result => console.log(result))
+#   .catch(error => console.error('Error:', error));
+
+### Given a user get all the goals in the right order
+GET http://localhost:3000/goals/user-quiz-goals/1
+# How to use it:
+# fetch(`http://localhost:3000/user-quiz-goals/${userId}`)
+#   .then(response => response.json())
+#   .then(data => {
+#     console.log(data.categorizedGoals);
+#     // data.categorizedGoals will be an array of objects like:
+#     // [
+#     //   { category: "Category1", goals: [...] },
+#     //   { category: "Category2", goals: [...] },
+#     //   ...
+#     // ]
+#   })
+#   .catch(error => console.error('Error:', error));
