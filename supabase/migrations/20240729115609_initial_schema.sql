@@ -77,8 +77,9 @@ CREATE TABLE IF NOT EXISTS
     goal_id bigint null,
     assigned_at timestamp with time zone not null default now(),
     due_date timestamp with time zone null,
-    status text null default 'not done',
-    quiz_selected boolean null default false,
+    status text null default 'not_done',
+    focus_origin text null default null,
+    -- quiz_selected boolean null default false,
     completed_at timestamp with time zone null,
     quiz_selected boolean default false,
     constraint user_goals_pkey primary key (id),
@@ -89,9 +90,9 @@ CREATE TABLE IF NOT EXISTS
       (
         status = any (
           array[
-            'not_done'::text,
-            'in_progress'::text,
-            'completed'::text
+            'completed'::text,
+            'focused'::text,
+            'not_done'::text
           ]
         )
       )
