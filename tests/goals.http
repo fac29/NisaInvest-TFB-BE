@@ -1,6 +1,6 @@
 ### Goals Endpoints ###
 
-# Get all goals for a user
+# Get all goals for a user REPURPOSE
 GET http://localhost:3000/goals/user/2
 
 ### Get goal by goal_id
