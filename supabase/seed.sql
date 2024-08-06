@@ -96,3 +96,33 @@ INSERT INTO answers (id, answer_text, question_id, goal_id, created_at) VALUES
 (13, 'Pensions and employee benefits', 3, 14, '2024-07-31 11:10:21.463339+00'),
 (14, 'Halal investing', 3, 16, '2024-07-31 11:10:46.983309+00'),
 (15, 'Student loans', 3, 11, '2024-07-31 11:11:24.339196+00');
+
+
+--Insert Reports
+INSERT INTO reports (user_id, title, text, priority) VALUES
+-- Reports for user 1
+(1, 'Financial Review Meeting 1', 'The user is doing well on savings, but is finding it hard to give to charity due to not being involved with her community. It is recommended that she joins a local charity group to increase her involvement and opportunities to give back.', 'medium'),
+(1, 'Savings Plan Review', 'Emma has successfully saved up an emergency fund of three months of expenses. She is advised to continue contributing to her savings and to start looking into investment options.', 'high'),
+(1, 'Charity Contribution Advice', 'Emma shows strong financial discipline, but she needs to diversify her charity contributions. Suggest connecting with community leaders to find more opportunities.', 'low'),
+(1, 'Investment Plan Update', 'Emma is advised to explore more diversified investment options to balance risk and return effectively.', 'medium'),
+
+-- Reports for user 2
+(2, 'Investment Portfolio Review', 'Liam has diversified his investments well, but should look into halal investment options to align with his values. Regular reviews are necessary to maintain this alignment.', 'high'),
+(2, 'Expense Management Strategy', 'Liam is keeping his expenses under control but should revisit his budget monthly to ensure he is meeting his financial goals.', 'medium'),
+(2, 'Retirement Planning', 'Liam needs to focus more on his pension contributions. Increasing his monthly pension contributions will benefit him in the long term.', 'medium'),
+(2, 'Monthly Budget Review', 'Liam needs to re-evaluate his monthly budget to cut down unnecessary expenses and increase savings.', 'low'),
+
+-- Reports for user 3
+(3, 'Debt Management Plan', 'Sophia has a clear understanding of her debts. It is advised that she creates a detailed repayment plan to systematically reduce her debt over time.', 'high'),
+(3, 'Pension Account Review', 'Sophia has been proactive about her pension. Reviewing her pension plans periodically will ensure she is getting the best returns.', 'medium'),
+(3, 'Emergency Fund Analysis', 'Sophia has an adequate emergency fund. She should now focus on long-term savings and investment plans.', 'high'),
+
+-- Reports for user 4
+(4, 'Savings Strategy Review', 'Noah is doing a great job with his savings. To further improve, he should consider setting up automatic transfers to his savings account.', 'low'),
+(4, 'Utility Bills Management', 'Noah needs to monitor his utility bills closely to ensure he is not overpaying. Negotiating with providers could lead to significant savings.', 'medium'),
+(4, 'Debt Repayment Strategy', 'Noah needs a structured plan to pay off his debts efficiently. Consolidating high-interest debts might be beneficial.', 'medium'),
+
+-- Reports for user 5
+(5, 'Financial Health Check', 'Olivia has a solid financial foundation. However, she needs to focus on reducing her discretionary spending to free up more funds for savings and investments.', 'medium'),
+(5, 'Community Involvement for Charity', 'Olivia is struggling with regular charity contributions. Joining community events can help her find more opportunities to give back.', 'low'),
+(5, 'Charity Engagement Plan', 'Olivia should look into local community services to enhance her charity efforts and contribute more effectively.', 'low');

@@ -1,0 +1,31 @@
+### Reports Endpoints ###
+
+# Get all reports
+GET http://localhost:3000/reports/all
+
+### Get reports for a specific user
+GET http://localhost:3000/reports/user/1
+
+### Create a new report
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "title": "Monthly Progress Report",
+    "text": "This is the content of the monthly progress report.",
+    "priority": "medium"
+}
+
+### Update a report
+PUT http://localhost:3000/reports/1
+Content-Type: application/json
+
+{
+    "title": "Updated Monthly Progress Report",
+    "text": "This is the updated content of the monthly progress report.",
+    "priority": "high"
+}
+
+### Delete a report
+DELETE http://localhost:3000/reports/1
