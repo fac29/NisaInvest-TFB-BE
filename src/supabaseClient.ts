@@ -1,14 +1,12 @@
+import config from './config/config';
 import { createClient } from '@supabase/supabase-js'
-import config from './config/config'
 
 console.log('NODE_ENV:', config.nodeEnv)
 console.log('Supabase URL:', config.supabaseUrl)
-console.log('Supabase Key:', config.supabaseAnonKey ? '**hidden**' : 'undefined')
-
-if (!config.supabaseUrl || !config.supabaseAnonKey) {
-  throw new Error('Supabase URL or Key is missing. Check your environment variables.')
-}
+console.log('Supabase Anon Key:', config.supabaseAnonKey ? '**hidden**' : 'undefined')
+console.log('Supabase Service Role Key:', config.supabaseServiceRoleKey ? '**hidden**' : 'undefined')
 
 const supabase = createClient(config.supabaseUrl, config.supabaseAnonKey)
+const supabaseAdmin = createClient(config.supabaseUrl, config.supabaseServiceRoleKey)
 
-export default supabase
+export { supabase, supabaseAdmin }
