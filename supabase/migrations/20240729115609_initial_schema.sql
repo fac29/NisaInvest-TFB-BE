@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS
     email text not null default ''::text,
     first_name text not null,
     last_name text,
+    auth_id uuid references auth.users(id) on delete cascade,
     password text null,
     constraint users_pkey primary key (id),
     constraint users_email_key unique (email)
@@ -128,6 +129,37 @@ CREATE TABLE IF NOT EXISTS
       priority = any (array['low'::text, 'medium'::text, 'high'::text])
     )
   ) tablespace pg_default;
+
+
+
+  -- Enable Row Level Security on users table
+ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
+
+-- Create policies for users table
+CREATE POLICY "Users can view own record" 
+ON public.users FOR SELECT 
+USING (auth.uid() = auth_id);
+
+CREATE POLICY "Users can update own record" 
+ON public.users FOR UPDATE 
+USING (auth.uid() = auth_id);
+
+-- Create function to handle new user signups
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (auth_id, email, first_name, last_name)
+  VALUES (new.id, new.email, 
+          COALESCE(new.raw_user_meta_data->>'first_name', ''),
+          COALESCE(new.raw_user_meta_data->>'last_name', ''));
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Create trigger to call handle_new_user() when a user signs up
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
 create index if not exists idx_quotes_date_range on public.quotes using btree (valid_from, valid_to) tablespace pg_default;
 create index if not exists idx_user_goals_user_id on public.user_goals using btree (user_id) tablespace pg_default;
