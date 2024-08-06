@@ -4,7 +4,7 @@
 GET http://localhost:3000/users/all
 
 ### Get user by id
-GET http://localhost:3000/users/id/2
+GET http://localhost:3000/users/id/1
 
 ### Get user by email
 GET http://localhost:3000/users/email/emma.johnson@email.com
