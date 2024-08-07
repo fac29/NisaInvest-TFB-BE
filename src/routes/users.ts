@@ -1,18 +1,37 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import supabase from '../supabaseClient';
+import supabaseAdmin from '../supabaseAdminClient';
 
 const router = express.Router();
 
+
+// Middleware to use the service role key for specific routes
+const serviceRoleMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  (req as any).supabaseAdmin = supabaseAdmin;
+  next();
+};
+
 // Get all users
-router.get('/all', async (req, res) => {
+router.get('/all', serviceRoleMiddleware, async (req: Request, res: Response) => {
   try {
-    const { data, error } = await supabase.from('users').select('*');
+    const { data, error } = await (req as any).supabaseAdmin.from('users').select('*');
     if (error) throw new Error(error.message);
     res.json(data);
-  } catch (error: unknown) {
+  } catch (error) {
     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
   }
 });
+
+// // Get all users
+// router.get('/all', async (req, res) => {
+//   try {
+//     const { data, error } = await supabase.from('users').select('*');
+//     if (error) throw new Error(error.message);
+//     res.json(data);
+//   } catch (error: unknown) {
+//     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+//   }
+// });
 
 // Get user by ID
 router.get('/id/:id', async (req, res) => {
