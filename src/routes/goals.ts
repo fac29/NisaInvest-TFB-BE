@@ -100,32 +100,122 @@ router.put('/user-goal/:userId/:goalId', async (req, res) => {
   }
 });
 
+// // Focus a goal manually by the user
+// router.put('/user-goal/focus/:userId/:goalId', async (req, res) => {
+//   try {
+//     const { data: updatedUserGoal, error } = await supabase
+//       .from('user_goals')
+//       .update({
+//         status: 'focused',
+//         focus_origin: 'user'
+//       })
+//       .eq('user_id', req.params.userId)
+//       .eq('goal_id', req.params.goalId)
+//       .select(`
+//         id,
+//         user_id,
+//         goal_id,
+//         assigned_at,
+//         due_date,
+//         status,
+//         completed_at,
+//         focus_origin,
+//         goals (*)
+//       `)
+//       .single();
+
+//     if (error) throw new Error(error.message);
+//     if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found' });
+
+//     res.json(updatedUserGoal);
+//   } catch (error: unknown) {
+//     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+//   }
+// });
+
+// // Complete a goal manually by the user
+// router.put('/user-goal/complete/:userId/:goalId', async (req, res) => {
+//   try {
+//     const currentTime = new Date().toISOString().replace('T', ' ').substr(0, 19) + '+00';
+//     const { data: updatedUserGoal, error } = await supabase
+//       .from('user_goals')
+//       .update({
+//         status: 'completed',
+//         completed_at: currentTime
+//       })
+//       .eq('user_id', req.params.userId)
+//       .eq('goal_id', req.params.goalId)
+//       .select(`
+//         id,
+//         user_id,
+//         goal_id,
+//         assigned_at,
+//         due_date,
+//         status,
+//         completed_at,
+//         focus_origin,
+//         goals (*)
+//       `)
+//       .single();
+
+//     if (error) throw new Error(error.message);
+//     if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found' });
+
+//     res.json(updatedUserGoal);
+//   } catch (error: unknown) {
+//     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+//   }
+// });
+
 // Focus a goal manually by the user
 router.put('/user-goal/focus/:userId/:goalId', async (req, res) => {
   try {
-    const { data: updatedUserGoal, error } = await supabase
+    // Check if the user_goal exists
+    const { data: existingUserGoal, error: checkError } = await supabase
       .from('user_goals')
-      .update({
-        status: 'focused',
-        focus_origin: 'user'
-      })
+      .select('*')
       .eq('user_id', req.params.userId)
       .eq('goal_id', req.params.goalId)
-      .select(`
-        id,
-        user_id,
-        goal_id,
-        assigned_at,
-        due_date,
-        status,
-        completed_at,
-        focus_origin,
-        goals (*)
-      `)
       .single();
 
-    if (error) throw new Error(error.message);
-    if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found' });
+    if (checkError && checkError.code !== 'PGRST116') {
+      throw new Error(checkError.message);
+    }
+
+    let updatedUserGoal;
+
+    if (existingUserGoal) {
+      // Update existing user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .update({
+          status: 'focused',
+          focus_origin: 'user'
+        })
+        .eq('id', existingUserGoal.id)
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    } else {
+      // Create new user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .insert({
+          user_id: req.params.userId,
+          goal_id: req.params.goalId,
+          status: 'focused',
+          focus_origin: 'user'
+        })
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    }
+
+    if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found or could not be created' });
 
     res.json(updatedUserGoal);
   } catch (error: unknown) {
@@ -137,29 +227,53 @@ router.put('/user-goal/focus/:userId/:goalId', async (req, res) => {
 router.put('/user-goal/complete/:userId/:goalId', async (req, res) => {
   try {
     const currentTime = new Date().toISOString().replace('T', ' ').substr(0, 19) + '+00';
-    const { data: updatedUserGoal, error } = await supabase
+
+    // Check if the user_goal exists
+    const { data: existingUserGoal, error: checkError } = await supabase
       .from('user_goals')
-      .update({
-        status: 'completed',
-        completed_at: currentTime
-      })
+      .select('*')
       .eq('user_id', req.params.userId)
       .eq('goal_id', req.params.goalId)
-      .select(`
-        id,
-        user_id,
-        goal_id,
-        assigned_at,
-        due_date,
-        status,
-        completed_at,
-        focus_origin,
-        goals (*)
-      `)
       .single();
 
-    if (error) throw new Error(error.message);
-    if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found' });
+    if (checkError && checkError.code !== 'PGRST116') {
+      throw new Error(checkError.message);
+    }
+
+    let updatedUserGoal;
+
+    if (existingUserGoal) {
+      // Update existing user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .update({
+          status: 'completed',
+          completed_at: currentTime
+        })
+        .eq('id', existingUserGoal.id)
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    } else {
+      // Create new user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .insert({
+          user_id: req.params.userId,
+          goal_id: req.params.goalId,
+          status: 'completed',
+          completed_at: currentTime
+        })
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    }
+
+    if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found or could not be created' });
 
     res.json(updatedUserGoal);
   } catch (error: unknown) {
