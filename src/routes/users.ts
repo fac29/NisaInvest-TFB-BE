@@ -33,10 +33,27 @@ router.get('/all', serviceRoleMiddleware, async (req: Request, res: Response) =>
 //   }
 // });
 
+// // Get user by ID
+// router.get('/id/:id', async (req, res) => {
+//   try {
+//     const { data, error } = await supabase
+//       .from('users')
+//       .select('*')
+//       .eq('id', req.params.id);
+
+//     if (error) throw new Error(error.message);
+//     if (data.length === 0) return res.status(404).json({ error: 'User not found' });
+//     if (data.length > 1) return res.status(500).json({ error: 'Multiple users found with the same ID' });
+
+//     res.json(data[0]);
+//   } catch (error: unknown) {
+//     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+//   }
+// });
 // Get user by ID
-router.get('/id/:id', async (req, res) => {
+router.get('/id/:id', serviceRoleMiddleware, async (req: Request, res: Response) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await (req as any).supabaseAdmin
       .from('users')
       .select('*')
       .eq('id', req.params.id);
@@ -46,7 +63,7 @@ router.get('/id/:id', async (req, res) => {
     if (data.length > 1) return res.status(500).json({ error: 'Multiple users found with the same ID' });
 
     res.json(data[0]);
-  } catch (error: unknown) {
+  } catch (error) {
     res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
   }
 });
