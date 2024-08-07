@@ -3,8 +3,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 interface Config {
-  supabaseServiceRoleKey(supabaseUrl: string, supabaseServiceRoleKey: any): unknown;
-  supabaseServiceRoleKey: any;
   port: number;
   corsOrigin: string;
   nodeEnv: string;

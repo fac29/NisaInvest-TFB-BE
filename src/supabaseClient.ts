@@ -1,18 +1,15 @@
-//import { Config } from './config/config';
-import Config from "./config/config"
-import config from "./config/config"
 import { createClient } from '@supabase/supabase-js'
+import config from './config/config'
 
-// Explicitly type the config
-const typedConfig: typeof Config = config;
+console.log('NODE_ENV:', config.nodeEnv)
+console.log('Supabase URL:', config.supabaseUrl)
+console.log('Supabase Key:', config.supabaseAnonKey ? '**hidden**' : 'undefined')
 
-console.log('NODE_ENV:', typedConfig.nodeEnv)
-console.log('Supabase URL:', typedConfig.supabaseUrl)
-console.log('Supabase Anon Key:', typedConfig.supabaseAnonKey ? '**hidden**' : 'undefined')
-//console.log('Supabase Service Role Key:', typedConfig.supabaseServiceRoleKey ? '**hidden**' : 'undefined')
+if (!config.supabaseUrl || !config.supabaseAnonKey) {
+  throw new Error('Supabase URL or Key is missing. Check your environment variables.')
+}
 
-const supabase = createClient(typedConfig.supabaseUrl, typedConfig.supabaseAnonKey)
-//const supabaseAdmin = createClient(typedConfig.supabaseUrl, typedConfig.supabaseServiceRoleKey)
+const supabase = createClient(config.supabaseUrl, config.supabaseAnonKey)
 
-//export { supabase, supabaseAdmin }
-export {supabase}
+export default supabase
+

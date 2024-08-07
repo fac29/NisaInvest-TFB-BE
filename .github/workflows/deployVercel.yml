@@ -2,7 +2,11 @@ name: Deploy to Vercel
 
 on:
   push:
+<<<<<<< HEAD
     branches: ['deployed']
+=======
+    branches: ['main']
+>>>>>>> recovery_branch
 
 jobs:
   deploy:
