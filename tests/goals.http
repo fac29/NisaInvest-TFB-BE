@@ -64,7 +64,7 @@ POST http://localhost:3000/goals/update-quiz-selected
 Content-Type: application/json
 
 {
-  "userId": 5,
+  "userId": 1,
   "goalIds": [1, 2, 3]
 }
 
@@ -73,6 +73,95 @@ Content-Type: application/json
 # const goalIds = [1, 2, 3]; // The list of goal IDs
 
 # fetch('http://localhost:3000/user-goals/update-quiz-selected', {
+#   method: 'POST',
+#   headers: {
+#     'Content-Type': 'application/json',
+#   },
+#   body: JSON.stringify({ userId, goalIds }),
+# })
+#   .then(response => response.json())
+#   .then(result => console.log(result))
+#   .catch(error => console.error('Error:', error));
+
+
+
+## REMOTE
+
+### Goals Endpoints ###
+
+# Get all goals for a user 
+GET https://nisa-invest-tfb-be.vercel.app/goals/user/1
+# How to use it:
+# fetch(`https://nisa-invest-tfb-be.vercel.app/user-quiz-goals/${userId}`)
+#   .then(response => response.json())
+#   .then(data => {
+#     console.log(data.categorizedGoals);
+#     // data.categorizedGoals will be an array of objects like:
+#     // [
+#     //   { category: "Category1", goals: [...] },
+#     //   { category: "Category2", goals: [...] },
+#     //   ...
+#     // ]
+#   })
+#   .catch(error => console.error('Error:', error));
+
+### Get goal by goal_id
+GET https://nisa-invest-tfb-be.vercel.app/goals/4
+
+### Create goal
+POST https://nisa-invest-tfb-be.vercel.app/goals
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "title": "New Goal",
+    "description": "This is a new goal",
+    "status": "not_done",
+    "is_recurrent": false,
+    "due_date": "2024-12-31T23:59:59Z"
+}
+
+### Update goal (general information)
+PUT https://nisa-invest-tfb-be.vercel.app/goals/1
+Content-Type: application/json
+
+{
+    "title": "Updated Goal Title2",
+    "description": "Updated description",
+    "is_recurrent": true,
+    "recurrence_type": "week",
+    "recurrence_value": 1,
+    "category": "fitness"
+}
+
+### Update user-specific goal information. Params are userID, goalID
+PUT https://nisa-invest-tfb-be.vercel.app/goals/user-goal/2/1
+Content-Type: application/json
+
+{
+    "status": "not_done",
+    "due_date": "2023-12-31T23:59:59Z"
+}
+
+### Delete goal
+DELETE https://nisa-invest-tfb-be.vercel.app/goals/21
+
+
+### Set all the goals passed on the body to true. If the user_goal does not exist 
+# it will create it
+POST https://nisa-invest-tfb-be.vercel.app/goals/update-quiz-selected
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "goalIds": [1, 2, 3]
+}
+
+# How to use it:
+# const userId = 1; // The user ID
+# const goalIds = [1, 2, 3]; // The list of goal IDs
+
+# fetch('https://nisa-invest-tfb-be.vercel.app/user-goals/update-quiz-selected', {
 #   method: 'POST',
 #   headers: {
 #     'Content-Type': 'application/json',

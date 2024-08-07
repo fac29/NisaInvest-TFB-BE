@@ -165,7 +165,7 @@ router.post('/update-quiz-selected', async (req, res) => {
         // Update existing user_goals entries
         const { data: updatedGoals, error: updateError } = await supabase
             .from('user_goals')
-            .update({ status: 'focused' })
+            .update({ status: 'focused' , focus_origin: 'quiz'})
             .eq('user_id', userId)
             .in('goal_id', goalIds)
             .select();
