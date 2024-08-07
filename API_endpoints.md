@@ -212,6 +212,9 @@ DELETE https://nisa-invest-tfb-be.vercel.app/reports/1
 ### Get all users
 GET https://nisa-invest-tfb-be.vercel.app/users/all
 
+### Get user by id
+GET https://nisa-invest-tfb-be.vercel.app/users/id/2
+
 ### Get user by email
 GET https://nisa-invest-tfb-be.vercel.app/users/email/emma.johnson@email.com
 

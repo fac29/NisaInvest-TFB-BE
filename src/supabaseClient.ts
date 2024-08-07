@@ -1,12 +1,18 @@
-import config from './config/config';
+//import { Config } from './config/config';
+import Config from "./config/config"
+import config from "./config/config"
 import { createClient } from '@supabase/supabase-js'
 
-console.log('NODE_ENV:', config.nodeEnv)
-console.log('Supabase URL:', config.supabaseUrl)
-console.log('Supabase Anon Key:', config.supabaseAnonKey ? '**hidden**' : 'undefined')
-console.log('Supabase Service Role Key:', config.supabaseServiceRoleKey ? '**hidden**' : 'undefined')
+// Explicitly type the config
+const typedConfig: typeof Config = config;
 
-const supabase = createClient(config.supabaseUrl, config.supabaseAnonKey)
-const supabaseAdmin = createClient(config.supabaseUrl, config.supabaseServiceRoleKey)
+console.log('NODE_ENV:', typedConfig.nodeEnv)
+console.log('Supabase URL:', typedConfig.supabaseUrl)
+console.log('Supabase Anon Key:', typedConfig.supabaseAnonKey ? '**hidden**' : 'undefined')
+//console.log('Supabase Service Role Key:', typedConfig.supabaseServiceRoleKey ? '**hidden**' : 'undefined')
 
-export { supabase, supabaseAdmin }
+const supabase = createClient(typedConfig.supabaseUrl, typedConfig.supabaseAnonKey)
+//const supabaseAdmin = createClient(typedConfig.supabaseUrl, typedConfig.supabaseServiceRoleKey)
+
+//export { supabase, supabaseAdmin }
+export {supabase}
