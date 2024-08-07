@@ -1,24 +1,4 @@
 {
-<<<<<<< HEAD
-  "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "rootDir": "./",
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "strict": true
-  },
-  "include": [
-    "src/**/*",
-    "api/**/*",
-    "config/config.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts"
-  ]
-}
-=======
     "compilerOptions": {
       "target": "es6",
       "module": "commonjs",
@@ -30,4 +10,3 @@
     "include": ["src/**/*", "api/**/*"],
     "exclude": ["node_modules", "**/*.spec.ts"]
   }
->>>>>>> recovery_branch
