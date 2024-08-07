@@ -100,6 +100,39 @@ router.put('/user-goal/:userId/:goalId', async (req, res) => {
   }
 });
 
+// Focus a goal manually by the user
+router.put('/user-goal/focus/:userId/:goalId', async (req, res) => {
+  try {
+    const { data: updatedUserGoal, error } = await supabase
+      .from('user_goals')
+      .update({
+        status: 'focused',
+        focus_origin: 'user'
+      })
+      .eq('user_id', req.params.userId)
+      .eq('goal_id', req.params.goalId)
+      .select(`
+        id,
+        user_id,
+        goal_id,
+        assigned_at,
+        due_date,
+        status,
+        completed_at,
+        focus_origin,
+        goals (*)
+      `)
+      .single();
+
+    if (error) throw new Error(error.message);
+    if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found' });
+
+    res.json(updatedUserGoal);
+  } catch (error: unknown) {
+    res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+  }
+});
+
 // Delete goal and its user assignments
 router.delete('/:id', async (req, res) => {
   try {
@@ -151,7 +184,8 @@ router.post('/update-quiz-selected', async (req, res) => {
             const newUserGoals = goalsToCreate.map(goalId => ({
                 user_id: userId,
                 goal_id: goalId,
-                status: 'focused'
+                status: 'focused',
+                focus_origin: 'quiz'
             }));
 
             const { error: insertError } = await supabase
@@ -164,7 +198,7 @@ router.post('/update-quiz-selected', async (req, res) => {
         // Update existing user_goals entries
         const { data: updatedGoals, error: updateError } = await supabase
             .from('user_goals')
-            .update({ status: 'focused' })
+            .update({ status: 'focused' , focus_origin: 'quiz'})
             .eq('user_id', userId)
             .in('goal_id', goalIds)
             .select();

@@ -1,0 +1,46 @@
+### ContactNisa Endpoints ###
+
+### Get all contacts
+GET http://localhost:3000/contactnisa/all
+
+### Create contact request
+POST http://localhost:3000/contactnisa
+Content-Type: application/json
+
+{
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "social_media": "@johndoe",
+    "text_field": "This is a test contact request."
+}
+
+### Create another contact request
+POST http://localhost:3000/contactnisa
+Content-Type: application/json
+
+{
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "email": "jane.smith@example.com",
+    "social_media": "@janesmith",
+    "text_field": "Another test contact request."
+}
+
+### Create contact request with minimal data
+POST http://localhost:3000/contactnisa
+Content-Type: application/json
+
+{
+    "email": "minimal@example.com"
+}
+
+### Create contact request with invalid data (should fail)
+POST http://localhost:3000/contactnisa
+Content-Type: application/json
+
+{
+    "first_name": "Invalid",
+    "last_name": "User",
+    "social_media": "@invaliduser"
+}
