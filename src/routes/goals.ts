@@ -151,7 +151,8 @@ router.post('/update-quiz-selected', async (req, res) => {
             const newUserGoals = goalsToCreate.map(goalId => ({
                 user_id: userId,
                 goal_id: goalId,
-                status: 'focused'
+                status: 'focused',
+                focus_origin: 'quiz'
             }));
 
             const { error: insertError } = await supabase

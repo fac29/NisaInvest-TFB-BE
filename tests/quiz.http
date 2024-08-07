@@ -59,3 +59,69 @@ Content-Type: application/json
 
 ### Delete answer
 DELETE http://localhost:3000/quiz/answers/1
+
+
+### REMOTE ###
+
+### Questions Endpoints ###
+
+### Get all questions with their answers
+GET https://nisa-invest-tfb-be.vercel.app/quiz/questions-with-answers
+
+### Get all questions
+GET https://nisa-invest-tfb-be.vercel.app/quiz/questions
+
+### Get question by id
+GET https://nisa-invest-tfb-be.vercel.app/quiz/questions/1
+
+### Create question
+POST https://nisa-invest-tfb-be.vercel.app/quiz/questions
+Content-Type: application/json
+
+{
+    "question": "Createtdhd fghfghby me",
+    "created_at": "2024-08-01T10:00:00+00"
+}
+
+### Update question
+PUT https://nisa-invest-tfb-be.vercel.app/quiz/questions/1
+Content-Type: application/json
+
+{
+    "question": "Wfsafafdsfdsfdsafdsa?"
+}
+
+### Delete question
+DELETE https://nisa-invest-tfb-be.vercel.app/quiz/questions/1
+
+### Answers Endpoints ###
+
+### Get all answers
+GET https://nisa-invest-tfb-be.vercel.app/quiz/answers
+
+### Get answer by id
+GET https://nisa-invest-tfb-be.vercel.app/quiz/answers/1
+
+### Create answer
+POST https://nisa-invest-tfb-be.vercel.app/quiz/answers
+Content-Type: application/json
+
+{
+    "answer_text": "Save more money",
+    "question_id": 1,
+    "goal_id": 2,
+    "created_at": "2024-08-01T10:00:00+00"
+}
+
+### Update answer
+PUT https://nisa-invest-tfb-be.vercel.app/quiz/answers/1
+Content-Type: application/json
+
+{
+    "answer_text": "Invest in stocks",
+    "question_id": 1,
+    "goal_id": 16
+}
+
+### Delete answer
+DELETE https://nisa-invest-tfb-be.vercel.app/quiz/answers/1
