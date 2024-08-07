@@ -53,7 +53,6 @@ INSERT INTO users (created_at, email, first_name, last_name, password) VALUES
 ('2024-01-04 14:45:00+00', 'dahlia.qadri@email.com', 'Dahlia', 'Qadri', 'hashed_password_4'),
 ('2024-01-05 16:20:00+00', 'layla.amin@email.com', 'Layla', 'Amin', 'hashed_password_5');
 
-
 -- Insert user_goals
 INSERT INTO user_goals (user_id, goal_id, assigned_at, due_date, status, completed_at) VALUES
 (1, 1, '2023-07-01T10:00:00Z', '2023-12-31T23:59:59Z', 'completed', NULL),
