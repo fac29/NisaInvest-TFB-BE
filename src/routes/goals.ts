@@ -106,7 +106,7 @@ router.put('/user-goal/focus/:userId/:goalId', async (req, res) => {
     const { data: updatedUserGoal, error } = await supabase
       .from('user_goals')
       .update({
-        status: 'focus',
+        status: 'focused',
         focus_origin: 'user'
       })
       .eq('user_id', req.params.userId)
