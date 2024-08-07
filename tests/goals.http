@@ -152,6 +152,9 @@ DELETE https://nisa-invest-tfb-be.vercel.app/goals/2
 ### Set Focus manually by user
 PUT https://nisa-invest-tfb-be.vercel.app/goals/user-goal/focus/1/2
 
+### Set Complete manually by user
+PUT https://nisa-invest-tfb-be.vercel.app/goals/user-goal/complete/1/2
+
 ### Set all the goals passed on the body to focused and focus_origin to quiz. If the user_goal does not exist 
 # it will create it
 POST https://nisa-invest-tfb-be.vercel.app/goals/update-quiz-selected
