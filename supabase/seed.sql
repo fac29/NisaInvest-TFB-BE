@@ -47,11 +47,11 @@ INSERT INTO quotes (text, author, valid_from, valid_to) VALUES
 
 -- Insert users
 INSERT INTO users (created_at, email, first_name, last_name, password) VALUES
-('2024-01-01 10:00:00+00', 'emma.johnson@email.com', 'Emma', 'Johnson Nore', 'hashed_password_1'),
-('2024-01-02 11:30:00+00', 'liam.smith@email.com', 'Liam', 'Smith', 'hashed_password_2'),
-('2024-01-03 09:15:00+00', 'sophia.brown@email.com', 'Sophia', 'Brown', 'hashed_password_3'),
-('2024-01-04 14:45:00+00', 'noah.taylor@email.com', 'Noah', 'Taylor', 'hashed_password_4'),
-('2024-01-05 16:20:00+00', 'olivia.davis@email.com', 'Olivia', 'Davis', 'hashed_password_5');
+('2024-01-01 10:00:00+00', 'kamala.khan@email.com', 'Kamala', 'Khan', 'hashed_password_1'),
+('2024-01-02 11:30:00+00', 'sana.bakkoush@email.com', 'Sana', 'Bakkoush', 'hashed_password_2'),
+('2024-01-03 09:15:00+00', 'adena.elamin@email.com', 'Adena', 'El-Amin', 'hashed_password_3'),
+('2024-01-04 14:45:00+00', 'dahlia.qadri@email.com', 'Dahlia', 'Qadri', 'hashed_password_4'),
+('2024-01-05 16:20:00+00', 'layla.amin@email.com', 'Layla', 'Amin', 'hashed_password_5');
 
 -- Insert user_goals
 INSERT INTO user_goals (user_id, goal_id, assigned_at, due_date, status, completed_at) VALUES
