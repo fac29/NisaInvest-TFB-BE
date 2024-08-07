@@ -7,6 +7,7 @@ import quizRoutes from './routes/quiz'
 import contact_nisaRoutes from './routes/contactnisa'
 import reportRoutes from './routes/reports'
 import config from './config/config'
+import './types';
 
 const app = express()
 
