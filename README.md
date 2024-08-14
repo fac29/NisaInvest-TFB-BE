@@ -24,7 +24,7 @@ It will also deploy when pushing code to the branch 'deployed'
 ##### Reset local DB:
 ```npx supabase db reset```
 ##### Access local Supabase Studio:
-```http://localhost:54323/project/default```
+```http://localhost:54323```
 
 ### Supabase Remote Setup
 
@@ -39,4 +39,10 @@ It will also deploy when pushing code to the branch 'deployed'
 ```npx supabase db reset --linked```
 
 ## API Documentation
-See [API Endpoints](API_endpoints.md)
+See test files for each category:
+* [Contact](./tests/contact_nisa.http)
+* [Goals](./tests/goals.http)
+* [Quiz](./tests/quiz.http)
+* [Quotes](./tests/quotes.http)
+* [Reports](./tests/reports.http)
+* [Users](./tests/users.http)

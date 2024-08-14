@@ -319,6 +319,193 @@ router.get('/user/:userId', async (req, res) => {
   }
 });
 
+// Focus a goal manually by the user
+router.put('/user-goal/focus/:userId/:goalId', async (req, res) => {
+  try {
+    // Check if the user_goal exists
+    const { data: existingUserGoal, error: checkError } = await supabase
+      .from('user_goals')
+      .select('*')
+      .eq('user_id', req.params.userId)
+      .eq('goal_id', req.params.goalId)
+      .single();
+
+    if (checkError && checkError.code !== 'PGRST116') {
+      throw new Error(checkError.message);
+    }
+
+    let updatedUserGoal;
+
+    if (existingUserGoal) {
+      // Update existing user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .update({
+          status: 'focused',
+          focus_origin: 'user'
+        })
+        .eq('id', existingUserGoal.id)
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    } else {
+      // Create new user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .insert({
+          user_id: req.params.userId,
+          goal_id: req.params.goalId,
+          status: 'focused',
+          focus_origin: 'user'
+        })
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    }
+
+    if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found or could not be created' });
+
+    res.json(updatedUserGoal);
+  } catch (error: unknown) {
+    res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+  }
+});
+
+// Complete a goal manually by the user
+router.put('/user-goal/complete/:userId/:goalId', async (req, res) => {
+  try {
+    const currentTime = new Date().toISOString().replace('T', ' ').substr(0, 19) + '+00';
+
+    // Check if the user_goal exists
+    const { data: existingUserGoal, error: checkError } = await supabase
+      .from('user_goals')
+      .select('*')
+      .eq('user_id', req.params.userId)
+      .eq('goal_id', req.params.goalId)
+      .single();
+
+    if (checkError && checkError.code !== 'PGRST116') {
+      throw new Error(checkError.message);
+    }
+
+    let updatedUserGoal;
+
+    if (existingUserGoal) {
+      // Update existing user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .update({
+          status: 'completed',
+          completed_at: currentTime
+        })
+        .eq('id', existingUserGoal.id)
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    } else {
+      // Create new user_goal
+      const { data, error } = await supabase
+        .from('user_goals')
+        .insert({
+          user_id: req.params.userId,
+          goal_id: req.params.goalId,
+          status: 'completed',
+          completed_at: currentTime
+        })
+        .select()
+        .single();
+
+      if (error) throw new Error(error.message);
+      updatedUserGoal = data;
+    }
+
+    if (!updatedUserGoal) return res.status(404).json({ error: 'User goal not found or could not be created' });
+
+    res.json(updatedUserGoal);
+  } catch (error: unknown) {
+    res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+  }
+});
+
+// Delete goal and its user assignments
+router.delete('/:id', async (req, res) => {
+  try {
+    // Delete user_goals entries first
+    const { error: userGoalsError } = await supabase
+      .from('user_goals')
+      .delete()
+      .eq('goal_id', req.params.id);
+    
+    if (userGoalsError) throw new Error(userGoalsError.message);
+    // Then delete the goal
+    const { error: goalError } = await supabase
+      .from('goals')
+      .delete()
+      .eq('id', req.params.id);
+    
+    if (goalError) throw new Error(goalError.message);
+    res.status(204).send();
+  } catch (error: unknown) {
+    res.status(500).json({ error: error instanceof Error ? error.message : 'An unknown error occurred' });
+  }
+});
+
+// Update status for multiple user goals. Used by the quiz
+router.post('/update-quiz-selected', async (req, res) => {
+  const { userId, goalIds } = req.body;
+    if (!userId || !goalIds || !Array.isArray(goalIds) || goalIds.length === 0) {
+        return res.status(400).json({ error: 'Invalid or missing userId or goalIds in request body' });
+    }
+    try {
+        // Start a Supabase transaction
+        const { data: existingUserGoals, error: fetchError } = await supabase
+            .from('user_goals')
+            .select('goal_id')
+            .eq('user_id', userId)
+            .in('goal_id', goalIds);
+        if (fetchError) throw new Error(fetchError.message);
+        const existingGoalIds = new Set(existingUserGoals.map(ug => ug.goal_id));
+        const goalsToCreate = goalIds.filter(id => !existingGoalIds.has(id));
+        // Create new user_goals entries for non-existing combinations
+        if (goalsToCreate.length > 0) {
+            const newUserGoals = goalsToCreate.map(goalId => ({
+                user_id: userId,
+                goal_id: goalId,
+                status: 'focused',
+                focus_origin: 'quiz'
+            }));
+            const { error: insertError } = await supabase
+                .from('user_goals')
+                .insert(newUserGoals);
+            if (insertError) throw new Error(insertError.message);
+        }
+        // Update existing user_goals entries
+        const { data: updatedGoals, error: updateError } = await supabase
+            .from('user_goals')
+            .update({ status: 'focused' , focus_origin: 'quiz'})
+            .eq('user_id', userId)
+            .in('goal_id', goalIds)
+            .select();
+        if (updateError) throw new Error(updateError.message);
+        res.json({
+            message: 'User goals updated or created successfully',
+            updatedGoals,
+            newGoalsCreated: goalsToCreate.length
+        });
+    } catch (error: unknown) {
+        res.status(500).json({
+            error:
+                error instanceof Error ? error.message : 'An unknown error occurred',
+        });
+    }
+});
+
 
 
 export default router;

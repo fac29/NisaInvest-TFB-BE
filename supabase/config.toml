@@ -19,8 +19,8 @@ max_rows = 1000
 enabled = false
 
 [db]
-# Port to use for the local database URL.
-port = 54322
+# Port to use for the local database URL. Changed from 54322
+port = 54329
 # Port used by db diff command to initialize the shadow database.
 shadow_port = 54320
 # The database major version to use. This has to be the same as your remote database's. Run `SHOW
@@ -184,7 +184,8 @@ inspector_port = 8083
 
 [analytics]
 enabled = true
-port = 54327
+# Changed from 54327
+port = 54337
 # Configure one of the supported backends: `postgres`, `bigquery`.
 backend = "postgres"
 

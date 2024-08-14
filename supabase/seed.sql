@@ -2,31 +2,31 @@
 -- Clear existing data
 TRUNCATE TABLE users, goals, quotes, user_goals RESTART IDENTITY CASCADE;
 
--- Insert goals
+-- Insert goals with sort_order
 INSERT INTO goals (category, title, description, is_recurrent, recurrence_type, recurrence_value, sort_order) VALUES
-('savings', 'I have at least 50% of one month''s salary saved', 'I have at least 50% of one month''s salary saved', false, NULL, NULL,1),
-('savings', 'I built an emergency fund of 3 to 6 months of expenses', 'I built an emergency fund of 3 to 6 months of expenses', false, NULL, NULL,2),
-('expenses', 'I can login online to all my utility providers', 'I can login online to all my utility providers', false, NULL, NULL,1),
-('expenses', 'I know the cost of my monthly expenses', 'I know the cost of my monthly expenses', false, NULL, NULL,2),
-('expenses', 'I have logged into my personal tax account and confirmed my tax code', 'I have logged into my personal tax account and confirmed my tax code', false, NULL, NULL,3),
-('expenses', 'I have a SIM-only mobile phone plan', 'I have a SIM-only mobile phone plan', false, NULL, NULL,4),
-('expenses', 'I have negotiated with my utilities providers in the last 18 months', 'I have negotiated with my utilities providers in the last 18 months', false, NULL, NULL,5),
-('expenses', 'My expenses are no more than 50-60% of my take home pay', 'My expenses are no more than 50-60% of my take home pay', false, NULL, NULL,6),
-('expenses', 'I save in advance for larger purchases with a sinking fund', 'I save in advance for larger purchases with a sinking fund', false, NULL, NULL,7),
-('expenses', 'My personal spending comes out of a separate bank account', 'My personal spending comes out of a separate bank account', false, NULL, NULL,8),
-('investing', 'I have a list of any debts I have outstanding', 'I have a list of any debts I have outstanding', false, NULL, NULL,1),
-('investing', 'I don''t use a credit card', 'I don''t use a credit card', false, NULL, NULL,2),
-('investing', 'I can login online to my pension accounts', 'I can login online to my pension accounts', false, NULL, NULL,3),
-('investing', 'I know what my employer''s pension offers and confirmed the halal options', 'I know what my employer''s pension offers and confirmed the halal options', false, NULL, NULL,4),
-('investing', 'I have checked and confirmed the information on my credit report', 'I have checked and confirmed the information on my credit report', false, NULL, NULL,5),
-('investing', 'I know which platform to use to open an investment account that offers halal options', 'I know which platform to use to open an investment account that offers halal options', false, NULL, NULL,6),
-('investing', 'I am being tax efficient', 'I am being tax efficient', false, NULL, NULL,7),
-('investing', 'I have a plan to pay down my debt including contributing at least 20% of my take-home pay to it', 'I have a plan to pay down my debt including contributing at least 20% of my take-home pay to it', false, NULL, NULL,8),
-('investing', 'I am investing 20% of my take-home pay in halal assets', 'I am investing 20% of my take-home pay in halal assets', false, NULL, NULL,9),
-('charity', 'I purify any interest I receive in my bank accounts', 'I purify any interest I receive in my bank accounts', false, NULL, NULL,1),
-('charity', 'I give back in person', 'I give back in person', false, NULL, NULL,2),
-('charity', 'I know how to calculate and pay my zakat', 'I know how to calculate and pay my zakat', false, NULL, NULL,3),
-('charity', 'I make a regular donation from my payslip', 'I make a regular donation from my payslip', false, NULL, NULL,4);
+('savings', 'I have at least 50% of one month''s salary saved', 'I have at least 50% of one month''s salary saved', false, NULL, NULL, 1),
+('savings', 'I built an emergency fund of 3 to 6 months of expenses', 'I built an emergency fund of 3 to 6 months of expenses', false, NULL, NULL, 2),
+('expenses', 'I can login online to all my utility providers', 'I can login online to all my utility providers', false, NULL, NULL, 1),
+('expenses', 'I know the cost of my monthly expenses', 'I know the cost of my monthly expenses', false, NULL, NULL, 2),
+('expenses', 'I have logged into my personal tax account and confirmed my tax code', 'I have logged into my personal tax account and confirmed my tax code', false, NULL, NULL, 3),
+('expenses', 'I have a SIM-only mobile phone plan', 'I have a SIM-only mobile phone plan', false, NULL, NULL, 4),
+('expenses', 'I have negotiated with my utilities providers in the last 18 months', 'I have negotiated with my utilities providers in the last 18 months', false, NULL, NULL, 5),
+('expenses', 'My expenses are no more than 50-60% of my take home pay', 'My expenses are no more than 50-60% of my take home pay', false, NULL, NULL, 6),
+('expenses', 'I save in advance for larger purchases with a sinking fund', 'I save in advance for larger purchases with a sinking fund', false, NULL, NULL, 7),
+('expenses', 'My personal spending comes out of a separate bank account', 'My personal spending comes out of a separate bank account', false, NULL, NULL, 8),
+('investing', 'I have a list of any debts I have outstanding', 'I have a list of any debts I have outstanding', false, NULL, NULL, 1),
+('investing', 'I don''t use a credit card', 'I don''t use a credit card', false, NULL, NULL, 2),
+('investing', 'I can login online to my pension accounts', 'I can login online to my pension accounts', false, NULL, NULL, 3),
+('investing', 'I know what my employer''s pension offers and confirmed the halal options', 'I know what my employer''s pension offers and confirmed the halal options', false, NULL, NULL, 4),
+('investing', 'I have checked and confirmed the information on my credit report', 'I have checked and confirmed the information on my credit report', false, NULL, NULL, 5),
+('investing', 'I know which platform to use to open an investment account that offers halal options', 'I know which platform to use to open an investment account that offers halal options', false, NULL, NULL, 6),
+('investing', 'I am being tax efficient', 'I am being tax efficient', false, NULL, NULL, 7),
+('investing', 'I have a plan to pay down my debt including contributing at least 20% of my take-home pay to it', 'I have a plan to pay down my debt including contributing at least 20% of my take-home pay to it', false, NULL, NULL, 8),
+('investing', 'I am investing 20% of my take-home pay in halal assets', 'I am investing 20% of my take-home pay in halal assets', false, NULL, NULL, 9),
+('charity', 'I purify any interest I receive in my bank accounts', 'I purify any interest I receive in my bank accounts', false, NULL, NULL, 1),
+('charity', 'I give back in person', 'I give back in person', false, NULL, NULL, 2),
+('charity', 'I know how to calculate and pay my zakat', 'I know how to calculate and pay my zakat', false, NULL, NULL, 3),
+('charity', 'I make a regular donation from my payslip', 'I make a regular donation from my payslip', false, NULL, NULL, 4);
 
 -- Insert quotes
 INSERT INTO quotes (text, author, valid_from, valid_to) VALUES

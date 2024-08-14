@@ -1,12 +1,14 @@
 ### ContactNisa Endpoints ###
 
-### Get all contacts
+### Get all contacts (Local)
 GET http://localhost:3000/contactnisa/all
 
-### Create contact request
+### Get all contacts (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/contactnisa/all
+
+### Create contact request (Local)
 POST http://localhost:3000/contactnisa
 Content-Type: application/json
-
 {
     "first_name": "John",
     "last_name": "Doe",
@@ -15,10 +17,20 @@ Content-Type: application/json
     "text_field": "This is a test contact request."
 }
 
-### Create another contact request
+### Create contact request (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/contactnisa
+Content-Type: application/json
+{
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "social_media": "@johndoe",
+    "text_field": "This is a test contact request."
+}
+
+### Create another contact request (Local)
 POST http://localhost:3000/contactnisa
 Content-Type: application/json
-
 {
     "first_name": "Jane",
     "last_name": "Smith",
@@ -27,18 +39,43 @@ Content-Type: application/json
     "text_field": "Another test contact request."
 }
 
-### Create contact request with minimal data
+### Create another contact request (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/contactnisa
+Content-Type: application/json
+{
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "email": "jane.smith@example.com",
+    "social_media": "@janesmith",
+    "text_field": "Another test contact request."
+}
+
+### Create contact request with minimal data (Local)
 POST http://localhost:3000/contactnisa
 Content-Type: application/json
-
 {
     "email": "minimal@example.com"
 }
 
-### Create contact request with invalid data (should fail)
+### Create contact request with minimal data (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/contactnisa
+Content-Type: application/json
+{
+    "email": "minimal@example.com"
+}
+
+### Create contact request with invalid data (should fail) (Local)
 POST http://localhost:3000/contactnisa
 Content-Type: application/json
+{
+    "first_name": "Invalid",
+    "last_name": "User",
+    "social_media": "@invaliduser"
+}
 
+### Create contact request with invalid data (should fail) (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/contactnisa
+Content-Type: application/json
 {
     "first_name": "Invalid",
     "last_name": "User",

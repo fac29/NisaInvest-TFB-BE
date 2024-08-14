@@ -1,6 +1,0 @@
-id,created_at,email,name,password
-1,2024-01-01 10:00:00+00,emma.johnson@email.com,Emma Johnson,hashed_password_1
-2,2024-01-02 11:30:00+00,liam.smith@email.com,Liam Smith,hashed_password_2
-3,2024-01-03 09:15:00+00,sophia.brown@email.com,Sophia Brown,hashed_password_3
-4,2024-01-04 14:45:00+00,noah.taylor@email.com,Noah Taylor,hashed_password_4
-5,2024-01-05 16:20:00+00,olivia.davis@email.com,Olivia Davis,hashed_password_5

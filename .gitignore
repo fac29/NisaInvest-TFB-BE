@@ -135,3 +135,6 @@ dist
 
 # DB Seed data and test http
 seed
+
+#
+docker-desktop-amd64.deb 
