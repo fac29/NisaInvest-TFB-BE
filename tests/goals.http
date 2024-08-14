@@ -106,21 +106,6 @@ Content-Type: application/json
   "goalIds": [1, 2, 3]
 }
 
-# How to use it:
-# const userId = 1; // The user ID
-# const goalIds = [1, 2, 3]; // The list of goal IDs
-
-# fetch('https://nisa-invest-tfb-be.vercel.app/user-goals/update-quiz-selected', {
-#   method: 'POST',
-#   headers: {
-#     'Content-Type': 'application/json',
-#   },
-#   body: JSON.stringify({ userId, goalIds }),
-# })
-#   .then(response => response.json())
-#   .then(result => console.log(result))
-#   .catch(error => console.error('Error:', error));
-
 ### Focus a goal manually by the user (Local)
 PUT http://localhost:3000/goals/user-goal/focus/1/2
 Content-Type: application/json
