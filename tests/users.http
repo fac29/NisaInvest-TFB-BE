@@ -1,25 +1,44 @@
 ### Users Endpoints ###
 
-### Get all users
+### Get all users (Local)
 GET http://localhost:3000/users/all
 
-### Get user by id
+### Get all users (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/users/all
+
+### Get user by id (Local)
 GET http://localhost:3000/users/id/1
 
-### Get user by email
+### Get user by id (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/users/id/1
+
+### Get user by email (Local)
 GET http://localhost:3000/users/email/emma.johnson@email.com
 
-### Create user
+### Get user by email (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/users/email/emma.johnson@email.com
+
+### Create user (Local)
 POST http://localhost:3000/users
 Content-Type: application/json
 
 {
-    "email": "new.user@exassdf.com",
+    "email": "new.user@example.com",
     "first_name": "New User",
     "password": "securepassword123"
 }
 
-### Update user
+### Create user (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/users
+Content-Type: application/json
+
+{
+    "email": "new.user@example.com",
+    "first_name": "New User",
+    "password": "securepassword123"
+}
+
+### Update user (Local)
 PUT http://localhost:3000/users/1
 Content-Type: application/json
 
@@ -27,5 +46,16 @@ Content-Type: application/json
     "first_name": "Updated Name"
 }
 
-### Delete user
+### Update user (Remote)
+PUT https://nisa-invest-tfb-be.vercel.app/users/1
+Content-Type: application/json
+
+{
+    "first_name": "Updated Name"
+}
+
+### Delete user (Local)
 DELETE http://localhost:3000/users/7
+
+### Delete user (Remote)
+DELETE https://nisa-invest-tfb-be.vercel.app/users/7

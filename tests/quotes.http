@@ -1,12 +1,18 @@
 ### Quotes Endpoints ###
 
-### Get all quotes
+### Get all quotes (Local)
 GET http://localhost:3000/quotes
 
-### Get quote by id
+### Get all quotes (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quotes
+
+### Get quote by id (Local)
 GET http://localhost:3000/quotes/10
 
-### Create quote
+### Get quote by id (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quotes/10
+
+### Create quote (Local)
 POST http://localhost:3000/quotes
 Content-Type: application/json
 
@@ -17,7 +23,18 @@ Content-Type: application/json
     "valid_to": "2023-12-31"
 }
 
-### Update quote
+### Create quote (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/quotes
+Content-Type: application/json
+
+{
+    "text": "New inspirational quote",
+    "author": "Unknown Author",
+    "valid_from": "2023-01-01",
+    "valid_to": "2023-12-31"
+}
+
+### Update quote (Local)
 PUT http://localhost:3000/quotes/1
 Content-Type: application/json
 
@@ -26,11 +43,29 @@ Content-Type: application/json
     "author": "Known Author"
 }
 
-### Delete quote
+### Update quote (Remote)
+PUT https://nisa-invest-tfb-be.vercel.app/quotes/1
+Content-Type: application/json
+
+{
+    "text": "Updated inspirational quote",
+    "author": "Known Author"
+}
+
+### Delete quote (Local)
 DELETE http://localhost:3000/quotes/1
 
-### Get random quotes for a specific date
+### Delete quote (Remote)
+DELETE https://nisa-invest-tfb-be.vercel.app/quotes/1
+
+### Get random quotes for a specific date (Local)
 GET http://localhost:3000/quotes/random?date=2024-04-1&count=3
 
-### Get random quotes for today
+### Get random quotes for a specific date (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quotes/random?date=2024-04-1&count=3
+
+### Get random quotes for today (Local)
 GET http://localhost:3000/quotes/random?count=2
+
+### Get random quotes for today (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quotes/random?count=2

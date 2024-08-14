@@ -1,12 +1,18 @@
 ### Reports Endpoints ###
 
-# Get all reports
+### Get all reports (Local)
 GET http://localhost:3000/reports/all
 
-### Get reports for a specific user
+### Get all reports (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/reports/all
+
+### Get reports for a specific user (Local)
 GET http://localhost:3000/reports/user/1
 
-### Create a new report
+### Get reports for a specific user (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/reports/user/1
+
+### Create a new report (Local)
 POST http://localhost:3000/reports
 Content-Type: application/json
 
@@ -17,7 +23,18 @@ Content-Type: application/json
     "priority": "medium"
 }
 
-### Update a report
+### Create a new report (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/reports
+Content-Type: application/json
+
+{
+    "user_id": 1,
+    "title": "Monthly Progress Report",
+    "text": "This is the content of the monthly progress report.",
+    "priority": "medium"
+}
+
+### Update a report (Local)
 PUT http://localhost:3000/reports/1
 Content-Type: application/json
 
@@ -27,5 +44,18 @@ Content-Type: application/json
     "priority": "high"
 }
 
-### Delete a report
+### Update a report (Remote)
+PUT https://nisa-invest-tfb-be.vercel.app/reports/1
+Content-Type: application/json
+
+{
+    "title": "Updated Monthly Progress Report",
+    "text": "This is the updated content of the monthly progress report.",
+    "priority": "high"
+}
+
+### Delete a report (Local)
 DELETE http://localhost:3000/reports/1
+
+### Delete a report (Remote)
+DELETE https://nisa-invest-tfb-be.vercel.app/reports/1

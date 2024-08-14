@@ -2,41 +2,73 @@
 
 ### Questions Endpoints ###
 
-### Get all questions
+### Get all questions (Local)
 GET http://localhost:3000/quiz/questions
 
-### Get question by id
+### Get all questions (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quiz/questions
+
+### Get question by id (Local)
 GET http://localhost:3000/quiz/questions/1
 
-### Create question
+### Get question by id (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quiz/questions/1
+
+### Create question (Local)
 POST http://localhost:3000/quiz/questions
 Content-Type: application/json
 
 {
-    "question": "Createtdhd fghfghby me",
+    "question": "Created by me",
     "created_at": "2024-08-01T10:00:00+00"
 }
 
-### Update question
+### Create question (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/quiz/questions
+Content-Type: application/json
+
+{
+    "question": "Created by me",
+    "created_at": "2024-08-01T10:00:00+00"
+}
+
+### Update question (Local)
 PUT http://localhost:3000/quiz/questions/1
 Content-Type: application/json
 
 {
-    "question": "Wfsafafdsfdsfdsafdsa?"
+    "question": "What is your financial goal?"
 }
 
-### Delete question
+### Update question (Remote)
+PUT https://nisa-invest-tfb-be.vercel.app/quiz/questions/1
+Content-Type: application/json
+
+{
+    "question": "What is your financial goal?"
+}
+
+### Delete question (Local)
 DELETE http://localhost:3000/quiz/questions/1
+
+### Delete question (Remote)
+DELETE https://nisa-invest-tfb-be.vercel.app/quiz/questions/1
 
 ### Answers Endpoints ###
 
-### Get all answers
+### Get all answers (Local)
 GET http://localhost:3000/quiz/answers
 
-### Get answer by id
+### Get all answers (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quiz/answers
+
+### Get answer by id (Local)
 GET http://localhost:3000/quiz/answers/1
 
-### Create answer
+### Get answer by id (Remote)
+GET https://nisa-invest-tfb-be.vercel.app/quiz/answers/1
+
+### Create answer (Local)
 POST http://localhost:3000/quiz/answers
 Content-Type: application/json
 
@@ -47,7 +79,18 @@ Content-Type: application/json
     "created_at": "2024-08-01T10:00:00+00"
 }
 
-### Update answer
+### Create answer (Remote)
+POST https://nisa-invest-tfb-be.vercel.app/quiz/answers
+Content-Type: application/json
+
+{
+    "answer_text": "Save more money",
+    "question_id": 1,
+    "goal_id": 2,
+    "created_at": "2024-08-01T10:00:00+00"
+}
+
+### Update answer (Local)
 PUT http://localhost:3000/quiz/answers/1
 Content-Type: application/json
 
@@ -57,5 +100,18 @@ Content-Type: application/json
     "goal_id": 16
 }
 
-### Delete answer
+### Update answer (Remote)
+PUT https://nisa-invest-tfb-be.vercel.app/quiz/answers/1
+Content-Type: application/json
+
+{
+    "answer_text": "Invest in stocks",
+    "question_id": 1,
+    "goal_id": 16
+}
+
+### Delete answer (Local)
 DELETE http://localhost:3000/quiz/answers/1
+
+### Delete answer (Remote)
+DELETE https://nisa-invest-tfb-be.vercel.app/quiz/answers/1
