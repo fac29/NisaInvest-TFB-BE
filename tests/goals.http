@@ -93,7 +93,7 @@ POST http://localhost:3000/goals/update-quiz-selected
 Content-Type: application/json
 
 {
-  "userId": 5,
+  "userId": 1,
   "goalIds": [1, 2, 3]
 }
 
@@ -121,3 +121,18 @@ Content-Type: application/json
 ### Complete a goal manually by the user (Remote)
 PUT https://nisa-invest-tfb-be.vercel.app/goals/user-goal/complete/1/2
 Content-Type: application/json
+
+# How to use it:
+# const userId = 1; // The user ID
+# const goalIds = [1, 2, 3]; // The list of goal IDs
+
+# fetch('http://localhost:3000/user-goals/update-quiz-selected', {
+#   method: 'POST',
+#   headers: {
+#     'Content-Type': 'application/json',
+#   },
+#   body: JSON.stringify({ userId, goalIds }),
+# })
+#   .then(response => response.json())
+#   .then(result => console.log(result))
+#   .catch(error => console.error('Error:', error));
