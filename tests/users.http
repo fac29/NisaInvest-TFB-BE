@@ -46,6 +46,7 @@ Content-Type: application/json
     "first_name": "Updated Name"
 }
 
+
 ### Update user (Remote)
 PUT https://nisa-invest-tfb-be.vercel.app/users/1
 Content-Type: application/json

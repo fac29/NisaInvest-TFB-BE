@@ -113,5 +113,6 @@ Content-Type: application/json
 ### Delete answer (Local)
 DELETE http://localhost:3000/quiz/answers/1
 
+
 ### Delete answer (Remote)
 DELETE https://nisa-invest-tfb-be.vercel.app/quiz/answers/1

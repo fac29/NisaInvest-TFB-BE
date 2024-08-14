@@ -8,6 +8,7 @@ interface Config {
   nodeEnv: string;
   supabaseUrl: string;
   supabaseAnonKey: string;
+  supabaseServiceRoleKey: string;
 }
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -21,11 +22,13 @@ const config: Config = {
   nodeEnv: process.env.NODE_ENV || 'development',
   supabaseUrl: isProd ? process.env.PROD_SUPABASE_URL! : process.env.LOCAL_SUPABASE_URL!,
   supabaseAnonKey: isProd ? process.env.PROD_SUPABASE_ANON_KEY! : process.env.LOCAL_SUPABASE_ANON_KEY!,
+  supabaseServiceRoleKey: isProd ? process.env.PROD_SUPABASE_SERVICE_ROLE_KEY! : process.env.LOCAL_SUPABASE_SERVICE_ROLE_KEY!,
 };
 
 console.log('Config:', {
   ...config,
-  supabaseAnonKey: config.supabaseAnonKey ? '[REDACTED]' : 'undefined'
+  supabaseAnonKey: config.supabaseAnonKey ? '[REDACTED]' : 'undefined',
+  supabaseServiceRoleKey: config.supabaseServiceRoleKey ? '[REDACTED]' : 'undefined'
 });
 
 export default config;
