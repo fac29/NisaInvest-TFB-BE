@@ -5,7 +5,7 @@ import supabaseAdmin from '../supabaseAdminClient';
 const router = express.Router();
 
 
-// Middleware to use the service role key for specific routes
+// Middleware to use the service role key for protected routes
 const serviceRoleMiddleware = (req: Request, res: Response, next: NextFunction) => {
   (req as any).supabaseAdmin = supabaseAdmin;
   next();
