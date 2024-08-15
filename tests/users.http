@@ -18,7 +18,7 @@ GET http://localhost:3000/users/email/emma.johnson@email.com
 ### Get user by email (Remote)
 GET https://nisa-invest-tfb-be.vercel.app/users/email/emma.johnson@email.com
 
-### Create user (Local)
+### Create user (Local).
 POST http://localhost:3000/users
 Content-Type: application/json
 
